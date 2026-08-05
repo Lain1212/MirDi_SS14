@@ -35,6 +35,8 @@ public sealed partial class GraphicsTab : Control
                     0f,
                     Loc.GetString("ui-options-scale-auto", ("scale", UserInterfaceManager.DefaultUIScale))),
                 new OptionDropDownCVar<float>.ValueOption(0.75f, Loc.GetString("ui-options-scale-75")),
+                new OptionDropDownCVar<float>.ValueOption(0.90f, Loc.GetString("ui-options-scale-90")),
+                new OptionDropDownCVar<float>.ValueOption(0.95f, Loc.GetString("ui-options-scale-95")),
                 new OptionDropDownCVar<float>.ValueOption(1.00f, Loc.GetString("ui-options-scale-100")),
                 new OptionDropDownCVar<float>.ValueOption(1.25f, Loc.GetString("ui-options-scale-125")),
                 new OptionDropDownCVar<float>.ValueOption(1.50f, Loc.GetString("ui-options-scale-150")),

@@ -31,6 +31,11 @@ public sealed partial class SeparatedChatGameScreen : InGameScreen
         SetAnchorAndMarginPreset(Alerts, LayoutPreset.TopRight, margin: 10); // Goobstation Change
         SetAnchorAndMarginPreset(Targeting, LayoutPreset.BottomRight, margin: 5);
 
+        // Same as in DefaultGameScreen: grow towards the screen center instead of off the edge.
+        SetGrowHorizontal(Alerts, GrowDirection.Begin);
+        SetGrowHorizontal(Targeting, GrowDirection.Begin);
+        SetGrowVertical(Targeting, GrowDirection.Begin);
+
         ScreenContainer.OnSplitResizeFinished += () =>
             OnChatResized?.Invoke(new Vector2(ScreenContainer.SplitFraction, 0));
 

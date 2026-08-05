@@ -26,6 +26,13 @@ public sealed partial class DefaultGameScreen : InGameScreen
         SetAnchorAndMarginPreset(Alerts, LayoutPreset.TopRight, margin: 10);
         SetAnchorAndMarginPreset(Targeting, LayoutPreset.BottomRight, margin: 5); // Shitmed Change
 
+        // The margin presets above lock in the size these widgets had while they were still empty.
+        // Once they hold more than that (e.g. the alerts grid wrapping into a second column) they would grow
+        // past the right/bottom screen edge, so make them grow towards the screen center instead.
+        SetGrowHorizontal(Alerts, GrowDirection.Begin);
+        SetGrowHorizontal(Targeting, GrowDirection.Begin);
+        SetGrowVertical(Targeting, GrowDirection.Begin);
+
         Chat.OnResized += ChatOnResized;
         Chat.OnChatResizeFinish += ChatOnResizeFinish;
         MainViewport.OnResized += ResizeActionContainer;
