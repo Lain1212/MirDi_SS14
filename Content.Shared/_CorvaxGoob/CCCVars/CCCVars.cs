@@ -120,6 +120,25 @@ public sealed class CCCVars
         CVarDef.Create("skills.enabled", true, CVar.SERVERONLY);
 
     /// <summary>
+    /// Automatically disable skills when there is too few crew members on the station.
+    /// </summary>
+    public static readonly CVarDef<bool> SkillsAutoDisableEnabled =
+        CVarDef.Create("skills.auto_disable_enabled", true, CVar.SERVERONLY | CVar.ARCHIVE);
+
+    /// <summary>
+    /// Skills get disabled while the station crew count is below this value.
+    /// </summary>
+    public static readonly CVarDef<int> SkillsAutoDisableThreshold =
+        CVarDef.Create("skills.auto_disable_threshold", 10, CVar.SERVERONLY | CVar.ARCHIVE);
+
+    /// <summary>
+    /// How many extra crew members above the threshold are needed to enable skills back.
+    /// Prevents skills from flickering when the crew count hovers around the threshold.
+    /// </summary>
+    public static readonly CVarDef<int> SkillsAutoDisableHysteresis =
+        CVarDef.Create("skills.auto_disable_hysteresis", 2, CVar.SERVERONLY | CVar.ARCHIVE);
+
+    /// <summary>
     /// Show MRP-designated jobs in the lobby and late join.
     /// </summary>
     public static readonly CVarDef<bool> MrpJobsEnabled =

@@ -28,11 +28,13 @@ public sealed partial class SkillsSystem : SharedSkillsSystem
         Subs.CVar(_cfg, CCCVars.SkillsEnabled, value => _skillsEnabled = value);
 
         SubscribeLocalEvent<ImplantImplantedEvent>(OnImplantImplanted);
+
+        InitializeAutoToggle();
     }
 
     public bool IsSkillsEnabled()
     {
-        return _skillsEnabled;
+        return _skillsEnabled && !_autoDisabled;
     }
 
     /// <summary>
@@ -43,7 +45,7 @@ public sealed partial class SkillsSystem : SharedSkillsSystem
     /// <returns>true if has, else false</returns>
     public override bool HasSkill(EntityUid entity, SkillTypes skill)
     {
-        if (!_skillsEnabled)
+        if (!IsSkillsEnabled())
             return true;
 
         if (HasComp<IgnoreSkillsComponent>(entity))
