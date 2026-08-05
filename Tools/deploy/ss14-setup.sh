@@ -59,7 +59,8 @@ ss14_log "Рабочая папка:  $RUN_DIR"
 
 # --- Структура рабочей папки ---
 
-mkdir -p "$LIVE_DIR/bin/Content.Server" "$LIVE_DIR/bin/Content.Client" "$LIVE_DIR/Resources"
+mkdir -p "$LIVE_DIR/bin/Content.Server" "$LIVE_DIR/bin/Content.Client" \
+         "$LIVE_DIR/Resources" "$LIVE_DIR/RobustToolbox/Resources"
 mkdir -p "$DATA_DIR" "$STATE_DIR" "$LOG_DIR"
 
 # --- Конфиг сервера ---
@@ -176,6 +177,8 @@ if [[ -f "$REPO_DIR/bin/Content.Server/$SERVER_DLL" ]]; then
     fi
 
     rsync -a --delete "$REPO_DIR/Resources/" "$LIVE_DIR/Resources/"
+    # Ресурсы движка: сервер монтирует их как ../../RobustToolbox/Resources
+    rsync -a --delete "$REPO_DIR/RobustToolbox/Resources/" "$LIVE_DIR/RobustToolbox/Resources/"
     git -C "$REPO_DIR" rev-parse HEAD > "$DEPLOYED_MARK"
     ss14_log "Рабочая копия готова."
 else

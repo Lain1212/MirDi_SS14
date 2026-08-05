@@ -83,6 +83,8 @@ deploy_if_pending() {
         "$REPO_DIR/bin/Content.Server/" "$LIVE_DIR/bin/Content.Server/"
     rsync -a --delete "$REPO_DIR/bin/Content.Client/" "$LIVE_DIR/bin/Content.Client/"
     rsync -a --delete "$REPO_DIR/Resources/" "$LIVE_DIR/Resources/"
+    # Ресурсы самого движка: сервер монтирует их как ../../RobustToolbox/Resources
+    rsync -a --delete "$REPO_DIR/RobustToolbox/Resources/" "$LIVE_DIR/RobustToolbox/Resources/"
 
     mv "$PENDING_MARK" "$DEPLOYED_MARK"
     slog "Сборка применена."
@@ -90,6 +92,13 @@ deploy_if_pending() {
 
 [[ -f "$LIVE_DIR/bin/Content.Server/$SERVER_DLL" ]] \
     || ss14_die "Не найден $LIVE_DIR/bin/Content.Server/$SERVER_DLL. Запустите Tools/deploy/ss14-setup.sh"
+
+# Сервер монтирует три папки; если хоть одной нет, он падает при старте.
+for required in "Resources" "RobustToolbox/Resources" "bin/Content.Server"; do
+    [[ -d "$LIVE_DIR/$required" ]] \
+        || ss14_die "В рабочей копии нет $LIVE_DIR/$required — сервер без неё не запустится.
+Дополните рабочую копию: bash $DEPLOY_DIR/ss14-setup.sh"
+done
 
 slog "Супервизор запущен. Рабочая копия: $LIVE_DIR"
 
