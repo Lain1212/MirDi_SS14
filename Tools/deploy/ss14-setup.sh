@@ -203,7 +203,14 @@ RESTART_DELAY=$RESTART_DELAY
 EOF
 
 chmod 600 "$CONF_FILE"
-chmod +x "$DEPLOY_DIR"/*.sh 2>/dev/null || true
+
+# Только запускаемые скрипты: lib.sh подключается через source, и лишний флаг
+# исполнения на нём git показывал бы как локальное изменение, ломая git pull.
+chmod +x "$DEPLOY_DIR"/ss14-*.sh 2>/dev/null || true
+
+# На сервере репозиторий только принимает обновления, поэтому смена прав на
+# файлах не должна выглядеть для git изменением и мешать git pull.
+git -C "$REPO_DIR" config core.fileMode false
 
 cat <<EOF
 
