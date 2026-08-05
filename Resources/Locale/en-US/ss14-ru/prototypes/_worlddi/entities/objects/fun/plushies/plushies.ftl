@@ -1,0 +1,14 @@
+ent-LoksasaPlushie = Alice Krylova
+    .desc = A speedrun of the full RND server in 30 minutes. Let's go!
+ent-NevkusnyPlushie = Anton Griffith
+    .desc = The Great Anton Griffith.
+ent-NobodyscanPlushie = Svyatoslav Okomi
+    .desc = A small felinid working as a service. Kind.
+ent-FitzPlushie = Fitz Simmons
+    .desc = Literaly 1984
+ent-NyphovalkPlushie = Rusty Sangre
+    .desc = A beautiful creation of nature.
+ent-DegartPlushie = Degart
+    .desc = Shitcurity monster
+ent-EyesPlushie = Eyes
+    .desc = Furry. PINK FURRY.

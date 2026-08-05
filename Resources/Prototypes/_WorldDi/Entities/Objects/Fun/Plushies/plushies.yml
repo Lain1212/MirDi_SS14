@@ -1,0 +1,106 @@
+# Player plushies from the previous build. When adding new ones, also update the ru-RU/en-US locale files in the mirrored path.
+
+- type: entity
+  parent: BasePlushie
+  id: LoksasaPlushie
+  name: Alice Krylova
+  description: A speedrun of the full RND server in 30 minutes. Let's go!
+  suffix: WorldDiPlushie
+  components:
+  - type: Sprite
+    sprite: _WorldDi/Plushies.rsi
+    state: loksasa
+  - type: MeleeWeapon
+    wideAnimationRotation: -135
+    attackRate: 10
+  - type: Item
+
+- type: entity
+  parent: BasePlushie
+  id: NevkusnyPlushie
+  name: Anton Griffith
+  description: The Great Anton Griffith.
+  suffix: WorldDiPlushie
+  components:
+  - type: Sprite
+    sprite: _WorldDi/Plushies.rsi
+    state: anton
+  - type: MeleeWeapon
+    wideAnimationRotation: -135
+    attackRate: 10
+  - type: Item
+
+- type: entity
+  parent: BasePlushie
+  id: NobodyscanPlushie
+  name: Svyatoslav Okomi
+  description: A small felinid working as a service. Kind.
+  suffix: WorldDiPlushie
+  components:
+  - type: Sprite
+    sprite: _WorldDi/Plushies.rsi
+    state: nobodyscan
+  - type: MeleeWeapon
+    wideAnimationRotation: -135
+    attackRate: 10
+  - type: Item
+
+- type: entity
+  parent: BasePlushie
+  id: FitzPlushie
+  name: Fitz Simmons
+  description: Literaly 1984
+  suffix: WorldDiPlushie
+  components:
+  - type: Sprite
+    sprite: _WorldDi/Plushies.rsi
+    state: fitz
+  - type: MeleeWeapon
+    wideAnimationRotation: -135
+    attackRate: 10
+  - type: Item
+
+- type: entity
+  parent: BasePlushie
+  id: NyphovalkPlushie
+  name: Rusty Sangre
+  description: A beautiful creation of nature.
+  suffix: WorldDiPlushie
+  components:
+  - type: Sprite
+    sprite: _WorldDi/Plushies.rsi
+    state: rusty
+  - type: MeleeWeapon
+    wideAnimationRotation: -135
+    attackRate: 10
+  - type: Item
+
+- type: entity
+  parent: BasePlushie
+  id: DegartPlushie
+  name: Degart
+  description: Shitcurity monster
+  suffix: WorldDiPlushie
+  components:
+  - type: Sprite
+    sprite: _WorldDi/Plushies.rsi
+    state: degart
+  - type: MeleeWeapon
+    wideAnimationRotation: -135
+    attackRate: 10
+  - type: Item
+
+- type: entity
+  parent: BasePlushie
+  id: EyesPlushie
+  name: Eyes
+  description: Furry. PINK FURRY.
+  suffix: WorldDiPlushie
+  components:
+  - type: Sprite
+    sprite: _WorldDi/Plushies.rsi
+    state: eyes
+  - type: MeleeWeapon
+    wideAnimationRotation: -135
+    attackRate: 10
+  - type: Item

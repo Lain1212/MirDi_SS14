@@ -49,6 +49,7 @@
     - id: PinpointerNuclear
     - id: PlushieNuke
       prob: 0.1
+    - id: EyesPlushie # WorldDi
     #- id: RubberStampCaptain Corvax-Goob-CaptainDrobe
     - id: SpaceCash1000
     - id: WeaponDisabler

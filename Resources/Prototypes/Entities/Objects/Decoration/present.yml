@@ -384,6 +384,22 @@
       - id: FaceHuggerToys
         orGroup: GiftPool
       # WD EDIT END
+      # WorldDi-plushies-start
+      - id: LoksasaPlushie
+        orGroup: GiftPool
+      - id: NevkusnyPlushie
+        orGroup: GiftPool
+      - id: NobodyscanPlushie
+        orGroup: GiftPool
+      - id: FitzPlushie
+        orGroup: GiftPool
+      - id: NyphovalkPlushie
+        orGroup: GiftPool
+      - id: DegartPlushie
+        orGroup: GiftPool
+      - id: EyesPlushie
+        orGroup: GiftPool
+      # WorldDi-plushies-end
     sound:
       path: /Audio/Effects/unwrap.ogg
 

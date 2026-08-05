@@ -1,0 +1,32 @@
+{
+    "version": 1,
+    "license": "CC-BY-SA-3.0",
+    "copyright": "Created by Bababoi228. Commited by loksill",
+    "size": {
+        "x": 32,
+        "y": 32
+    },
+    "states": [
+        {
+            "name": "anton"
+        },
+        {
+            "name": "loksasa"
+        },
+        {
+            "name": "rusty"
+        },
+        {
+            "name": "degart"
+        },
+        {
+            "name": "fitz"
+        },
+        {
+            "name": "eyes"
+        },
+        {
+            "name": "nobodyscan"
+        }
+    ]
+}
