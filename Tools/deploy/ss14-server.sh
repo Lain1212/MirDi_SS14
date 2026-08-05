@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 #
 # Супервизор сервера. Запускается вместо ручного `dotnet run` и держит сервер
-# поднятым: после каждого выключения (в том числе выключения ради обновления)
-# применяет свежую сборку, если она готова, и запускает сервер снова.
+# поднятым: когда сервер выключается ради обновления, супервизор собирает
+# проект и поднимает сервер обратно уже на новой версии.
 #
 # Запуск:  screen -S ss14 Tools/deploy/ss14-server.sh
 # Остановка: Ctrl+C, либо Tools/deploy/ss14-stop.sh
@@ -37,87 +37,64 @@ on_stop() {
 }
 trap on_stop INT TERM
 
-# Не запускать сервер на полусобранных файлах: ss14-update.sh держит маркер,
-# пока идёт dotnet build.
-wait_for_build() {
-    local waited=0 pid announced=0
-
-    while [[ -f $BUILDING_MARK ]]; do
-        pid="$(cat "$BUILDING_MARK" 2>/dev/null || true)"
-
-        if [[ -z $pid ]] || ! kill -0 "$pid" 2>/dev/null; then
-            slog "Маркер сборки остался от прерванного процесса, игнорирую его."
-            rm -f "$BUILDING_MARK"
-            break
-        fi
-
-        if (( announced == 0 )); then
-            slog "Идёт сборка обновления (PID $pid). Жду её окончания перед запуском."
-            announced=1
-        fi
-
-        sleep 5
-        waited=$(( waited + 5 ))
-
-        if (( waited >= BUILD_WAIT_TIMEOUT )); then
-            slog "Сборка идёт дольше $BUILD_WAIT_TIMEOUT с, запускаю сервер на текущей версии."
-            break
-        fi
-
-        if (( STOPPING == 1 )); then
-            return
-        fi
-    done
-}
-
-# Переносит собранное из репозитория в рабочую копию. Выполняется только между
-# запусками сервера, поэтому файлы работающего процесса никогда не перезаписываются.
-deploy_if_pending() {
+# Сборка идёт только здесь — между выключением и запуском сервера, когда файлы
+# в bin/ никем не заняты.
+build_if_pending() {
     [[ -f $PENDING_MARK ]] || return 0
 
-    local commit
+    local commit build_log code
     commit="$(cat "$PENDING_MARK" 2>/dev/null || true)"
-    slog "Применяю новую сборку${commit:+ (${commit:0:8})}..."
+    build_log="$LOG_DIR/build-$(date '+%Y%m%d-%H%M%S').log"
 
-    rsync -a --delete --exclude '/data/' --exclude '/logs/' \
-        "$REPO_DIR/bin/Content.Server/" "$LIVE_DIR/bin/Content.Server/"
-    rsync -a --delete "$REPO_DIR/bin/Content.Client/" "$LIVE_DIR/bin/Content.Client/"
-    rsync -a --delete "$REPO_DIR/Resources/" "$LIVE_DIR/Resources/"
-    # Ресурсы самого движка: сервер монтирует их как ../../RobustToolbox/Resources
-    rsync -a --delete "$REPO_DIR/RobustToolbox/Resources/" "$LIVE_DIR/RobustToolbox/Resources/"
+    slog "Собираю обновление${commit:+ (${commit:0:8})}. Лог: $build_log"
+    slog "Сервер поднимется, как только сборка закончится."
 
-    mv "$PENDING_MARK" "$DEPLOYED_MARK"
-    slog "Сборка применена."
+    echo $$ > "$BUILDING_MARK"
+
+    cd "$REPO_DIR"
+    set +e
+    dotnet build -c "$BUILD_CONFIG" --nologo > "$build_log" 2>&1
+    code=$?
+    set -e
+
+    rm -f "$BUILDING_MARK"
+    (ls -1t "$LOG_DIR"/build-*.log 2>/dev/null | tail -n +11 | xargs -r rm -f) || true
+
+    if (( code != 0 )); then
+        slog "СБОРКА НЕ УДАЛАСЬ (код $code). Подробности: $build_log"
+        slog "Запускаю сервер на том, что собрано сейчас — проверьте лог сборки."
+        slog "Маркер сборки оставлен: следующий перезапуск попробует собрать снова."
+        tail -n 20 "$build_log" | sed 's/^/    /'
+        return 0
+    fi
+
+    rm -f "$PENDING_MARK"
+    if [[ -n $commit ]]; then
+        echo "$commit" > "$BUILT_MARK"
+    fi
+    slog "Сборка завершена успешно."
 }
 
-[[ -f "$LIVE_DIR/bin/Content.Server/$SERVER_DLL" ]] \
-    || ss14_die "Не найден $LIVE_DIR/bin/Content.Server/$SERVER_DLL. Запустите Tools/deploy/ss14-setup.sh"
+[[ -f "$SERVER_BIN_DIR/$SERVER_DLL" ]] \
+    || ss14_die "Не найден $SERVER_BIN_DIR/$SERVER_DLL.
+Соберите проект: cd $REPO_DIR && dotnet build -c $BUILD_CONFIG"
 
-# Сервер монтирует три папки; если хоть одной нет, он падает при старте.
-for required in "Resources" "RobustToolbox/Resources" "bin/Content.Server"; do
-    [[ -d "$LIVE_DIR/$required" ]] \
-        || ss14_die "В рабочей копии нет $LIVE_DIR/$required — сервер без неё не запустится.
-Дополните рабочую копию: bash $DEPLOY_DIR/ss14-setup.sh"
-done
-
-slog "Супервизор запущен. Рабочая копия: $LIVE_DIR"
+slog "Супервизор запущен. Сервер: $SERVER_BIN_DIR"
 
 quick_fails=0
 
 while true; do
     rm -f "$STOP_MARK"
 
-    wait_for_build
+    build_if_pending
     if (( STOPPING == 1 )); then
         break
     fi
 
-    deploy_if_pending
-
     started_at=$SECONDS
     slog "Запускаю сервер..."
 
-    cd "$LIVE_DIR/bin/Content.Server"
+    cd "$SERVER_BIN_DIR"
     dotnet "$SERVER_DLL" --config-file "$SERVER_CONFIG" --data-dir "$DATA_DIR" &
     SERVER_PID=$!
 

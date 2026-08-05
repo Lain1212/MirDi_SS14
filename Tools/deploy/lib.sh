@@ -9,9 +9,9 @@ DEPLOY_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # --- Значения по умолчанию. Переопределяются в файле конфигурации. ---
 
-# Папка с git-репозиторием, в которой делается pull и сборка.
+# Папка с git-репозиторием: отсюда сервер и запускается, здесь же идёт сборка.
 REPO_DIR="$(cd "$DEPLOY_DIR/../.." && pwd)"
-# Рабочая папка сервера: рабочая копия сборки, данные, состояние, логи.
+# Служебная папка: конфиг сервера, данные, состояние, логи.
 RUN_DIR="$HOME/ss14-run"
 
 GIT_REMOTE="origin"
@@ -26,14 +26,8 @@ STATUS_URL="http://127.0.0.1:1212"
 # с watchdog.token в server_config.toml.
 WATCHDOG_TOKEN=""
 
-# 1 — сообщить игрокам сразу после git pull, до сборки (сборка идёт во время раунда).
-# 0 — сообщить только после успешной сборки.
-NOTIFY_BEFORE_BUILD=1
-
 # Пауза между перезапусками сервера, секунды.
 RESTART_DELAY=3
-# Сколько супервизор ждёт идущую сборку перед запуском сервера, секунды.
-BUILD_WAIT_TIMEOUT=1800
 
 CONF_FILE="${SS14_DEPLOY_CONF:-$HOME/.ss14-deploy.conf}"
 
@@ -55,16 +49,18 @@ ss14_load_conf() {
 # Пути, вычисляемые из RUN_DIR. Вынесено отдельно, потому что ss14-setup.sh
 # переопределяет RUN_DIR аргументами уже после чтения файла конфигурации.
 ss14_derive_paths() {
-    LIVE_DIR="$RUN_DIR/live"
     DATA_DIR="$RUN_DIR/data"
     STATE_DIR="$RUN_DIR/state"
     LOG_DIR="$RUN_DIR/logs"
     SERVER_CONFIG="$RUN_DIR/server_config.toml"
+    SERVER_BIN_DIR="$REPO_DIR/bin/Content.Server"
 
-    PENDING_MARK="$STATE_DIR/deploy-pending"
+    # Просьба супервизору собрать проект перед следующим запуском сервера.
+    PENDING_MARK="$STATE_DIR/build-pending"
+    # Держится, пока идёт сборка: не даёт делать git pull в этот момент.
     BUILDING_MARK="$STATE_DIR/build-in-progress"
     STOP_MARK="$STATE_DIR/stop"
-    DEPLOYED_MARK="$STATE_DIR/deployed-commit"
+    BUILT_MARK="$STATE_DIR/built-commit"
 }
 
 # --- Вывод ---

@@ -48,20 +48,25 @@ ss14_derive_paths
 
 # --- Проверки окружения ---
 
-for cmd in git dotnet rsync curl awk; do
+for cmd in git dotnet curl awk; do
     command -v "$cmd" >/dev/null 2>&1 || ss14_die "Не найдена команда '$cmd'. Установите её и повторите."
 done
 
 [[ -d "$REPO_DIR/.git" ]] || ss14_die "$REPO_DIR не похож на git-репозиторий."
 
-ss14_log "Репозиторий:    $REPO_DIR"
-ss14_log "Рабочая папка:  $RUN_DIR"
+ss14_log "Репозиторий:     $REPO_DIR"
+ss14_log "Служебная папка: $RUN_DIR"
 
-# --- Структура рабочей папки ---
+# --- Структура служебной папки ---
 
-mkdir -p "$LIVE_DIR/bin/Content.Server" "$LIVE_DIR/bin/Content.Client" \
-         "$LIVE_DIR/Resources" "$LIVE_DIR/RobustToolbox/Resources"
 mkdir -p "$DATA_DIR" "$STATE_DIR" "$LOG_DIR"
+
+# Остаток от прежней схемы с рабочей копией: сервер снова запускается
+# прямо из репозитория, копия больше не нужна.
+if [[ -d "$RUN_DIR/live" ]]; then
+    ss14_log "Удаляю ненужную рабочую копию $RUN_DIR/live ..."
+    rm -rf "$RUN_DIR/live"
+fi
 
 # --- Конфиг сервера ---
 
@@ -162,28 +167,14 @@ if [[ -d $REPO_DATA ]] && [[ -z "$(ls -A "$DATA_DIR" 2>/dev/null)" ]]; then
     ss14_log "Готово. Старая папка оставлена на месте как резервная копия."
 fi
 
-# --- Первичное наполнение рабочей копии ---
+# --- Проверка, что сервер вообще собран ---
 
-if [[ -f "$REPO_DIR/bin/Content.Server/$SERVER_DLL" ]]; then
-    ss14_log "Копирую текущую сборку в $LIVE_DIR (первый раз это займёт время) ..."
-    rsync -a --delete --exclude '/data/' --exclude '/logs/' \
-        "$REPO_DIR/bin/Content.Server/" "$LIVE_DIR/bin/Content.Server/"
-
-    if [[ -d "$REPO_DIR/bin/Content.Client" ]]; then
-        rsync -a --delete "$REPO_DIR/bin/Content.Client/" "$LIVE_DIR/bin/Content.Client/"
-    else
-        ss14_warn "Не найден $REPO_DIR/bin/Content.Client — клиентский zip собрать не из чего."
-        ss14_warn "Соберите всё решение: cd $REPO_DIR && dotnet build -c $BUILD_CONFIG"
-    fi
-
-    rsync -a --delete "$REPO_DIR/Resources/" "$LIVE_DIR/Resources/"
-    # Ресурсы движка: сервер монтирует их как ../../RobustToolbox/Resources
-    rsync -a --delete "$REPO_DIR/RobustToolbox/Resources/" "$LIVE_DIR/RobustToolbox/Resources/"
-    git -C "$REPO_DIR" rev-parse HEAD > "$DEPLOYED_MARK"
-    ss14_log "Рабочая копия готова."
+if [[ -f "$SERVER_BIN_DIR/$SERVER_DLL" ]]; then
+    git -C "$REPO_DIR" rev-parse HEAD > "$BUILT_MARK"
+    ss14_log "Сервер собран: $SERVER_BIN_DIR/$SERVER_DLL"
 else
-    ss14_warn "В $REPO_DIR/bin/Content.Server не найден $SERVER_DLL."
-    ss14_warn "Соберите сервер (dotnet build -c $BUILD_CONFIG) и запустите setup ещё раз."
+    ss14_warn "В $SERVER_BIN_DIR не найден $SERVER_DLL."
+    ss14_warn "Соберите проект: cd $REPO_DIR && dotnet build -c $BUILD_CONFIG"
 fi
 
 # --- Файл конфигурации скриптов ---
@@ -208,12 +199,7 @@ SERVER_DLL="$SERVER_DLL"
 STATUS_URL="$STATUS_URL"
 WATCHDOG_TOKEN="$WATCHDOG_TOKEN"
 
-# 1 — сообщить игрокам сразу после git pull, сборка идёт во время раунда.
-# 0 — сообщить только после успешной сборки.
-NOTIFY_BEFORE_BUILD=$NOTIFY_BEFORE_BUILD
-
 RESTART_DELAY=$RESTART_DELAY
-BUILD_WAIT_TIMEOUT=$BUILD_WAIT_TIMEOUT
 EOF
 
 chmod 600 "$CONF_FILE"
@@ -226,7 +212,7 @@ cat <<EOF
   Конфигурация скриптов : $CONF_FILE
   Конфиг сервера        : $SERVER_CONFIG   <- теперь правьте только его
   Данные сервера        : $DATA_DIR
-  Рабочая копия сборки  : $LIVE_DIR
+  Сервер запускается из : $SERVER_BIN_DIR
 
 Дальше:
 
