@@ -250,15 +250,13 @@ namespace Content.Client.Lobby.UI
                 SetSpecies(_species[args.Id].ID);
                 UpdateHairPickers();
                 OnSkinColorOnValueChanged();
-                // UpdateHeightWidthSliders(); // Goobstation: port EE height/width sliders // CorvaxGoob-Clearing
+                UpdateHeightWidthSliders(); // MirDi-HeightWidth
             };
 
-            /*// begin Goobstation: port EE height/width sliders
+            // begin Goobstation: port EE height/width sliders // MirDi-HeightWidth
             #region Height and Width
 
-            var prototype = _species.Find(x => x.ID == Profile?.Species) ?? _species.First();
-
-            UpdateHeightWidthSliders(); // CorvaxGoob-Clearing
+            UpdateHeightWidthSliders();
             UpdateDimensions(SliderUpdate.Both);
 
             HeightSlider.OnValueChanged += _ => UpdateDimensions(SliderUpdate.Height);
@@ -279,7 +277,7 @@ namespace Content.Client.Lobby.UI
             };
 
             #endregion Height and Width
-            // end Goobstation: port EE height/width sliders*/
+            // end Goobstation: port EE height/width sliders
 
             #region Skin
 
@@ -919,8 +917,7 @@ namespace Content.Client.Lobby.UI
             UpdateHairPickers();
             UpdateCMarkingsHair();
             UpdateCMarkingsFacialHair();
-            // UpdateHeightWidthSliders(); // Goobstation: port EE height/width sliders // CorvaxGoob-Clearing
-            // UpdateWeight(); // Goobstation: port EE height/width sliders // CorvaxGoob-Clearing
+            UpdateHeightWidthSliders(); // MirDi-HeightWidth
 
             RefreshAntags();
             RefreshJobs();
@@ -1358,14 +1355,11 @@ namespace Content.Client.Lobby.UI
             UpdateSexControls(); // update sex for new species
             UpdateSpeciesGuidebookIcon();
             ReloadPreview();
-            /*
-            // begin Goobstation: port EE height/width sliders // CorvaxGoob-Clearing
-            UpdateBarkVoice(); // Goob Station - Barks
-            // begin Goobstation: port EE height/width sliders
-            // Changing species provides inaccurate sliders without these
+            // UpdateBarkVoice(); // Goob Station - Barks // CorvaxGoob-Revert : DB conflicts
+            // begin Goobstation: port EE height/width sliders // MirDi-HeightWidth
+            // Changing species provides inaccurate sliders without this
             UpdateHeightWidthSliders();
-            UpdateWeight();
-            // end Goobstation: port EE height/width sliders */
+            // end Goobstation: port EE height/width sliders
         }
 
         private void SetName(string newName)
@@ -1385,21 +1379,28 @@ namespace Content.Client.Lobby.UI
             SetDirty();
         }
 
-        /*// begin Goobstation: port EE height/width sliders // CorvaxGoob-Clearing
+        // begin Goobstation: port EE height/width sliders // MirDi-HeightWidth
         private void SetProfileHeight(float height)
         {
-            Profile = Profile?.WithHeight(height);
+            // Не трогаем профиль, если значение не изменилось — иначе открытие редактора сразу помечает персонажа как несохранённого.
+            if (Profile == null || MathF.Abs(Profile.Height - height) < 0.0001f)
+                return;
+
+            Profile = Profile.WithHeight(height);
             ReloadProfilePreview();
             IsDirty = true;
         }
 
         private void SetProfileWidth(float width)
         {
-            Profile = Profile?.WithWidth(width);
+            if (Profile == null || MathF.Abs(Profile.Width - width) < 0.0001f)
+                return;
+
+            Profile = Profile.WithWidth(width);
             ReloadProfilePreview();
             IsDirty = true;
         }
-        // end Goobstation: port EE height/width sliders*/
+        // end Goobstation: port EE height/width sliders
         // private void SetBarkVoice(BarkPrototype newVoice)
         // {
         //     Profile = Profile?.WithBarkVoice(newVoice);
@@ -1572,7 +1573,7 @@ namespace Content.Client.Lobby.UI
             SpawnPriorityButton.SelectId((int) Profile.SpawnPriority);
         }
 
-        /*// begin Goobstation: port EE height/width sliders // CorvaxGoob-Clearing
+        // begin Goobstation: port EE height/width sliders // MirDi-HeightWidth
         private void UpdateHeightWidthSliders()
         {
             if (Profile is null)
@@ -1592,12 +1593,6 @@ namespace Content.Client.Lobby.UI
             WidthSlider.SetValueWithoutEvent(Profile?.Width ?? species.DefaultWidth);
             WidthSlider.MinValue = species.MinWidth;
             WidthSlider.MaxValue = species.MaxWidth;
-
-            var height = MathF.Round(species.AverageHeight * HeightSlider.Value);
-            HeightLabel.Text = Loc.GetString("humanoid-profile-editor-height-label", ("height", (int) height));
-
-            var width = MathF.Round(species.AverageWidth * WidthSlider.Value);
-            WidthLabel.Text = Loc.GetString("humanoid-profile-editor-width-label", ("width", (int) width));
 
             UpdateDimensions(SliderUpdate.Both);
         }
@@ -1638,40 +1633,9 @@ namespace Content.Client.Lobby.UI
             SetProfileHeight(heightValue);
             SetProfileWidth(widthValue);
 
-            var height = MathF.Round(species.AverageHeight * HeightSlider.Value);
-            HeightLabel.Text = Loc.GetString("humanoid-profile-editor-height-label", ("height", (int) height));
-
-            var width = MathF.Round(species.AverageWidth * WidthSlider.Value);
-            WidthLabel.Text = Loc.GetString("humanoid-profile-editor-width-label", ("width", (int) width));
-
-            UpdateWeight();
-        }
-
-        private void UpdateWeight()
-        {
-            if (Profile == null)
-                return;
-
-            var species = _species.Find(x => x.ID == Profile.Species) ?? _species.First();
-            //  TODO: Remove obsolete method
-            _prototypeManager.Index(species.Prototype).TryGetComponent<FixturesComponent>(out var fixture, _entManager.ComponentFactory);
-
-            if (fixture != null)
-            {
-                var avg = (Profile.Width + Profile.Height) / 2;
-                var weight = FixtureSystem.GetMassData(fixture.Fixtures["fix1"].Shape, fixture.Fixtures["fix1"].Density).Mass * avg;
-                WeightLabel.Text = Loc.GetString("humanoid-profile-editor-weight-label", ("weight", (int) weight));
-            }
-            else // Whelp, the fixture doesn't exist, guesstimate it instead
-                WeightLabel.Text = Loc.GetString("humanoid-profile-editor-weight-label", ("weight", (int) 71));
-
-            // SpriteViewS.InvalidateMeasure();
-            // SpriteViewN.InvalidateMeasure();
-            // SpriteViewE.InvalidateMeasure();
-            // SpriteViewW.InvalidateMeasure();
             SpriteView.InvalidateMeasure();
         }
-        // end Goobstation: port EE height/width sliders*/
+        // end Goobstation: port EE height/width sliders
 
         private void UpdateHairPickers()
         {

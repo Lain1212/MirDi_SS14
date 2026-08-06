@@ -441,6 +441,10 @@ namespace Content.Server.Database
         [Column("char_name")] public string CharacterName { get; set; } = null!;
         public string FlavorText { get; set; } = null!;
         public int Age { get; set; }
+        // MirDi-HeightWidth-Start
+        public float Height { get; set; } = 1f;
+        public float Width { get; set; } = 1f;
+        // MirDi-HeightWidth-End
         public string Sex { get; set; } = null!;
         public string? Voice { get; set; } = null!; // CorvaxGoob-TTS
         public string Gender { get; set; } = null!;

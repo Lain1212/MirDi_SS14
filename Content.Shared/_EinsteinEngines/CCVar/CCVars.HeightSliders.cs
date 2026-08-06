@@ -9,8 +9,9 @@ public sealed partial class CCVars
     /// <summary>
     ///     Whether height & width sliders adjust a character's Fixture Component
     /// </summary>
+    // MirDi: рост/ширина — чисто декоративные, никаких геймплейных эффектов.
     public static readonly CVarDef<bool> HeightAdjustModifiesHitbox =
-        CVarDef.Create("heightadjust.modifies_hitbox", true, CVar.SERVERONLY);
+        CVarDef.Create("heightadjust.modifies_hitbox", false, CVar.SERVERONLY);
 
     /// <summary>
     ///     Whether height & width sliders adjust a player's max view distance
@@ -25,7 +26,7 @@ public sealed partial class CCVars
     ///     This can be configured more precisely by modifying BloodstreamAffectedByMassComponent.
     /// </remarks>
     public static readonly CVarDef<bool> HeightAdjustModifiesBloodstream =
-        CVarDef.Create("heightadjust.modifies_bloodstream", true, CVar.SERVERONLY);
+        CVarDef.Create("heightadjust.modifies_bloodstream", false, CVar.SERVERONLY); // MirDi: decorative only
 
     /// <summary>
     ///     Whether height & width sliders adjust a player's sprinting speed.
@@ -33,7 +34,7 @@ public sealed partial class CCVars
     ///     This can be configured more precisely by modifying SprintingAffectedByScaleComponent.
     /// </remarks>
     public static readonly CVarDef<bool> HeightAdjustModifiesSprinting =
-        CVarDef.Create("heightadjust.modifies_sprinting", true, CVar.SERVERONLY);
+        CVarDef.Create("heightadjust.modifies_sprinting", false, CVar.SERVERONLY); // MirDi: decorative only
 
     /// <summary>
     ///     Whether height & width sliders adjust a harpy's flight speed and stamina drain.
@@ -41,5 +42,5 @@ public sealed partial class CCVars
     ///     This can be configured more precisely by modifying FlightAffectedByScaleComponent.
     /// </remarks>
     public static readonly CVarDef<bool> HeightAdjustModifiesFlight =
-        CVarDef.Create("heightadjust.modifies_flight", true, CVar.SERVERONLY);
+        CVarDef.Create("heightadjust.modifies_flight", false, CVar.SERVERONLY); // MirDi: decorative only
 }

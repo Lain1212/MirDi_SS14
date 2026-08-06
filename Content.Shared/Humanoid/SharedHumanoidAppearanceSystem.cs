@@ -563,11 +563,8 @@ public abstract class SharedHumanoidAppearanceSystem : EntitySystem
 
         humanoid.Age = profile.Age;
 
-        // CorvaxGoob-Clearing
-        // begin Goobstation: port EE height/width sliders
-        var species = _proto.Index(humanoid.Species);
-
-        SetScale(uid, new Vector2(species.DefaultWidth, species.DefaultHeight), true, humanoid);
+        // begin Goobstation: port EE height/width sliders // MirDi-HeightWidth
+        SetScale(uid, new Vector2(profile.Width, profile.Height), true, humanoid);
 
         _heightAdjust.SetScale(uid, new Vector2(humanoid.Width, humanoid.Height));
         // end Goobstation: port EE height/width sliders

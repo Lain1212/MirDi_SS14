@@ -292,7 +292,9 @@ namespace Content.Server.Database
                 (PreferenceUnavailableMode) profile.PreferenceUnavailable,
                 antags.ToHashSet(),
                 traits.ToHashSet(),
-                loadouts
+                loadouts,
+                profile.Height, // MirDi-HeightWidth
+                profile.Width // MirDi-HeightWidth
                 // barkVoice // Goob Station - Barks // CorvaxGoob-Revert : DB conflicts
             );
         }
@@ -313,6 +315,8 @@ namespace Content.Server.Database
             profile.Species = humanoid.Species;
             profile.TTSVoice = humanoid.TTSVoice; // CorvaxGoob-TTS
             profile.Age = humanoid.Age;
+            profile.Height = humanoid.Height; // MirDi-HeightWidth
+            profile.Width = humanoid.Width; // MirDi-HeightWidth
             profile.Sex = humanoid.Sex.ToString();
             profile.Gender = humanoid.Gender.ToString();
             profile.HairName = appearance.HairStyleId;
