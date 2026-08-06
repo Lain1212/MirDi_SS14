@@ -557,9 +557,6 @@
       path: /Audio/Announcements/power_off.ogg
       params:
         volume: -4
-    announcersStartAudio: # CorvaxGoob-CustomAnnouncers
-      Intern:
-        collection: InternEventPowerOff
     duration: 60
     maxDuration: 120
     eventType: Interference # Goobstation
