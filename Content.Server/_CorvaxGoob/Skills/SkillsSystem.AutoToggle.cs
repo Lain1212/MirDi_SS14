@@ -1,4 +1,4 @@
-using Content.Server.Chat.Systems;
+using Content.Server.Chat.Managers;
 using Content.Server.GameTicking;
 using Content.Shared._CorvaxGoob.CCCVars;
 using Content.Shared.Bed.Cryostorage;
@@ -21,7 +21,7 @@ public sealed partial class SkillsSystem
 {
     [Dependency] private readonly IPlayerManager _player = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
-    [Dependency] private readonly ChatSystem _chat = default!;
+    [Dependency] private readonly IChatManager _chatManager = default!;
     [Dependency] private readonly SharedRoleSystem _roles = default!;
     [Dependency] private readonly GameTicker _ticker = default!;
 
@@ -112,10 +112,8 @@ public sealed partial class SkillsSystem
 
     private void Announce(string locId, int crew)
     {
-        _chat.DispatchGlobalAnnouncement(
-            Loc.GetString(locId, ("count", crew), ("threshold", _autoDisableThreshold)),
-            Loc.GetString("skills-auto-announcement-sender"),
-            colorOverride: Color.Gold);
+        _chatManager.DispatchServerAnnouncement(
+            Loc.GetString(locId, ("count", crew), ("threshold", _autoDisableThreshold)));
     }
 
     /// <summary>
