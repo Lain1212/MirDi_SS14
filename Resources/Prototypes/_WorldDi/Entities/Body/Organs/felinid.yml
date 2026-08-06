@@ -1,0 +1,16 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+# WorldDi - felinid eyes grant toggleable night vision, the same way shadowkin eyes do.
+- type: entity
+  id: OrganFelinidEyes
+  parent: OrganHumanEyes
+  name: cat eyes
+  description: "They glow in the dark."
+  components:
+  - type: Organ
+    onAdd:
+    - type: NightVision
+      color: "#9BE38B"
+      activateSound: null
+      deactivateSound: null
+      flashDurationMultiplier: 2 # dilated pupils, flashes hurt twice as long while it is on

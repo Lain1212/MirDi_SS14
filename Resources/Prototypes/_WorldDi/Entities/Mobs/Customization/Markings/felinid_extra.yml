@@ -1,0 +1,393 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# WorldDi - sprites ported from the Dead Space (Soyuz) build, all CC-BY-SA-3.0.
+# See the meta.json of every .rsi below for the original authors.
+
+# Tails
+
+- type: marking
+  id: WDFelinidTailTiger
+  bodyPart: Tail
+  markingCategory: Tail
+  speciesRestriction: [Felinid, Tajaran]
+  sprites:
+  - sprite: _WorldDi/Mobs/Customization/felinid_tiger_tail.rsi
+    state: m_tail_tiger_primary
+  - sprite: _WorldDi/Mobs/Customization/felinid_tiger_tail.rsi
+    state: m_tail_tiger_secondary
+  - sprite: _WorldDi/Mobs/Customization/felinid_tiger_tail.rsi
+    state: m_tail_tiger_tertiary
+
+- type: marking
+  id: WDTailDemon
+  bodyPart: Tail
+  markingCategory: Tail
+  speciesRestriction: [Felinid, Tajaran]
+  sprites:
+  - sprite: _WorldDi/Mobs/Customization/demon_tails.rsi
+    state: tail
+  - sprite: _WorldDi/Mobs/Customization/demon_tails.rsi
+    state: demon_tail
+
+- type: marking
+  id: WDTailDemonWagging
+  bodyPart: Tail
+  markingCategory: Tail
+  speciesRestriction: [Felinid, Tajaran]
+  sprites:
+  - sprite: _WorldDi/Mobs/Customization/demon_tails.rsi
+    state: tail_waggin
+  - sprite: _WorldDi/Mobs/Customization/demon_tails.rsi
+    state: demon_tail_waggin
+
+- type: marking
+  id: WDTailDemonLong
+  bodyPart: Tail
+  markingCategory: Tail
+  speciesRestriction: [Felinid, Tajaran]
+  sprites:
+  - sprite: _WorldDi/Mobs/Customization/demon_tails.rsi
+    state: tail
+  - sprite: _WorldDi/Mobs/Customization/demon_tails.rsi
+    state: long
+
+- type: marking
+  id: WDTailDemonLongWagging
+  bodyPart: Tail
+  markingCategory: Tail
+  speciesRestriction: [Felinid, Tajaran]
+  sprites:
+  - sprite: _WorldDi/Mobs/Customization/demon_tails.rsi
+    state: tail_waggin
+  - sprite: _WorldDi/Mobs/Customization/demon_tails.rsi
+    state: long_waggin
+
+- type: marking
+  id: WDTailDemonUp
+  bodyPart: Tail
+  markingCategory: Tail
+  speciesRestriction: [Felinid, Tajaran]
+  sprites:
+  - sprite: _WorldDi/Mobs/Customization/demon_tails.rsi
+    state: tail
+  - sprite: _WorldDi/Mobs/Customization/demon_tails.rsi
+    state: up
+
+- type: marking
+  id: WDTailDemonUpWagging
+  bodyPart: Tail
+  markingCategory: Tail
+  speciesRestriction: [Felinid, Tajaran]
+  sprites:
+  - sprite: _WorldDi/Mobs/Customization/demon_tails.rsi
+    state: tail_waggin
+  - sprite: _WorldDi/Mobs/Customization/demon_tails.rsi
+    state: up_waggin
+
+# Ears
+
+- type: marking
+  id: WDEarsCow
+  bodyPart: HeadSide
+  markingCategory: HeadSide
+  speciesRestriction: [Felinid, Tajaran]
+  sprites:
+  - sprite: _WorldDi/Mobs/Customization/demon_parts.rsi
+    state: cow_ears
+
+- type: marking
+  id: WDEarsDemon
+  bodyPart: HeadSide
+  markingCategory: HeadSide
+  speciesRestriction: [Felinid, Tajaran]
+  sprites:
+  - sprite: _WorldDi/Mobs/Customization/demon_parts.rsi
+    state: demon_ears
+
+# Horns
+
+- type: marking
+  id: WDHornsCow
+  bodyPart: HeadTop
+  markingCategory: HeadTop
+  speciesRestriction: [Felinid, Tajaran]
+  sprites:
+  - sprite: _WorldDi/Mobs/Customization/demon_parts.rsi
+    state: cow_horns
+
+- type: marking
+  id: WDHornsDeer
+  bodyPart: HeadTop
+  markingCategory: HeadTop
+  speciesRestriction: [Felinid, Tajaran]
+  sprites:
+  - sprite: _WorldDi/Mobs/Customization/demon_parts.rsi
+    state: deer_antlers_horns
+
+- type: marking
+  id: WDHornsSmall
+  bodyPart: HeadTop
+  markingCategory: HeadTop
+  speciesRestriction: [Felinid, Tajaran]
+  sprites:
+  - sprite: _WorldDi/Mobs/Customization/demon_parts.rsi
+    state: small_horns
+
+- type: marking
+  id: WDHornsCurled
+  bodyPart: HeadTop
+  markingCategory: HeadTop
+  speciesRestriction: [Felinid, Tajaran]
+  sprites:
+  - sprite: _WorldDi/Mobs/Customization/horns.rsi
+    state: durak
+
+- type: marking
+  id: WDHorns1
+  bodyPart: HeadTop
+  markingCategory: HeadTop
+  speciesRestriction: [Felinid, Tajaran]
+  sprites:
+  - sprite: _WorldDi/Mobs/Customization/horns.rsi
+    state: horn1
+
+- type: marking
+  id: WDHorns2
+  bodyPart: HeadTop
+  markingCategory: HeadTop
+  speciesRestriction: [Felinid, Tajaran]
+  sprites:
+  - sprite: _WorldDi/Mobs/Customization/horns.rsi
+    state: horn2
+
+- type: marking
+  id: WDHorns3
+  bodyPart: HeadTop
+  markingCategory: HeadTop
+  speciesRestriction: [Felinid, Tajaran]
+  sprites:
+  - sprite: _WorldDi/Mobs/Customization/horns.rsi
+    state: horn3
+
+- type: marking
+  id: WDHorns4
+  bodyPart: HeadTop
+  markingCategory: HeadTop
+  speciesRestriction: [Felinid, Tajaran]
+  sprites:
+  - sprite: _WorldDi/Mobs/Customization/horns.rsi
+    state: horn4
+
+- type: marking
+  id: WDHorns5
+  bodyPart: HeadTop
+  markingCategory: HeadTop
+  speciesRestriction: [Felinid, Tajaran]
+  sprites:
+  - sprite: _WorldDi/Mobs/Customization/horns.rsi
+    state: horn5
+
+- type: marking
+  id: WDHorns6
+  bodyPart: HeadTop
+  markingCategory: HeadTop
+  speciesRestriction: [Felinid, Tajaran]
+  sprites:
+  - sprite: _WorldDi/Mobs/Customization/horns.rsi
+    state: horn6
+
+- type: marking
+  id: WDHornsLord
+  bodyPart: HeadTop
+  markingCategory: HeadTop
+  speciesRestriction: [Felinid, Tajaran]
+  sprites:
+  - sprite: _WorldDi/Mobs/Customization/horns.rsi
+    state: lord
+
+- type: marking
+  id: WDHornsBroken
+  bodyPart: HeadTop
+  markingCategory: HeadTop
+  speciesRestriction: [Felinid, Tajaran]
+  sprites:
+  - sprite: _WorldDi/Mobs/Customization/horns.rsi
+    state: oldpain
+
+- type: marking
+  id: WDHornsTauric
+  bodyPart: HeadTop
+  markingCategory: HeadTop
+  speciesRestriction: [Felinid, Tajaran]
+  sprites:
+  - sprite: _WorldDi/Mobs/Customization/horns.rsi
+    state: tavrhorn
+
+- type: marking
+  id: WDHornsAntenna
+  bodyPart: HeadTop
+  markingCategory: HeadTop
+  speciesRestriction: [Felinid, Tajaran]
+  sprites:
+  - sprite: _WorldDi/Mobs/Customization/horns.rsi
+    state: telehorn
+
+- type: marking
+  id: WDHornsVampire
+  bodyPart: HeadTop
+  markingCategory: HeadTop
+  speciesRestriction: [Felinid, Tajaran]
+  sprites:
+  - sprite: _WorldDi/Mobs/Customization/horns.rsi
+    state: vampirehorn
+
+# Fluffy wagging tails - the animated variants Dead Space (Soyuz) added on top of
+# the Delta-V vulpkanin tail set. The static counterparts already live in
+# _DV/Entities/Mobs/Customization/Markings/vulpkanin.yml.
+
+- type: marking
+  id: WDTailFluffyWag
+  bodyPart: Tail
+  markingCategory: Tail
+  speciesRestriction: [Vulpkanin, Felinid, Tajaran]
+  sprites:
+  - sprite: _WorldDi/Mobs/Customization/vulp_tails_wag.rsi
+    state: fluffy-wagging
+
+- type: marking
+  id: WDTailFluffyWagTip
+  bodyPart: Tail
+  markingCategory: Tail
+  speciesRestriction: [Vulpkanin, Felinid, Tajaran]
+  sprites:
+  - sprite: _WorldDi/Mobs/Customization/vulp_tails_wag.rsi
+    state: fluffy-wagging
+  - sprite: _WorldDi/Mobs/Customization/vulp_tails_wag.rsi
+    state: fluffy-wagging-tip
+
+- type: marking
+  id: WDTailFluffyTip
+  bodyPart: Tail
+  markingCategory: Tail
+  speciesRestriction: [Vulpkanin, Felinid, Tajaran]
+  sprites:
+  - sprite: _DV/Mobs/Customization/Vulpkanin/tail_markings.rsi
+    state: fluffy
+  - sprite: _WorldDi/Mobs/Customization/vulp_tails_wag.rsi
+    state: fluffy-tip
+
+- type: marking
+  id: WDTailFennecWag
+  bodyPart: Tail
+  markingCategory: Tail
+  speciesRestriction: [Vulpkanin, Felinid, Tajaran]
+  sprites:
+  - sprite: _WorldDi/Mobs/Customization/vulp_tails_wag.rsi
+    state: fennec-wagging
+
+- type: marking
+  id: WDTailFennecWagTip
+  bodyPart: Tail
+  markingCategory: Tail
+  speciesRestriction: [Vulpkanin, Felinid, Tajaran]
+  sprites:
+  - sprite: _WorldDi/Mobs/Customization/vulp_tails_wag.rsi
+    state: fennec-wagging
+  - sprite: _WorldDi/Mobs/Customization/vulp_tails_wag.rsi
+    state: fennec-wagging-tip
+
+- type: marking
+  id: WDTailFennecTip
+  bodyPart: Tail
+  markingCategory: Tail
+  speciesRestriction: [Vulpkanin, Felinid, Tajaran]
+  sprites:
+  - sprite: _DV/Mobs/Customization/Vulpkanin/tail_markings.rsi
+    state: fennec
+  - sprite: _WorldDi/Mobs/Customization/vulp_tails_wag.rsi
+    state: fennec-tip
+
+- type: marking
+  id: WDTailHuskyWag
+  bodyPart: Tail
+  markingCategory: Tail
+  speciesRestriction: [Vulpkanin, Felinid, Tajaran]
+  sprites:
+  - sprite: _WorldDi/Mobs/Customization/vulp_tails_wag.rsi
+    state: husky-wagging
+
+- type: marking
+  id: WDTailHuskyWagLayered
+  bodyPart: Tail
+  markingCategory: Tail
+  speciesRestriction: [Vulpkanin, Felinid, Tajaran]
+  sprites:
+  - sprite: _WorldDi/Mobs/Customization/vulp_tails_wag.rsi
+    state: husky-wagging-inner
+  - sprite: _WorldDi/Mobs/Customization/vulp_tails_wag.rsi
+    state: husky-wagging-outer
+
+- type: marking
+  id: WDTailLongWag
+  bodyPart: Tail
+  markingCategory: Tail
+  speciesRestriction: [Vulpkanin, Felinid, Tajaran]
+  sprites:
+  - sprite: _WorldDi/Mobs/Customization/vulp_tails_wag.rsi
+    state: long-wagging
+  - sprite: _WorldDi/Mobs/Customization/vulp_tails_wag.rsi
+    state: long-wagging-tip
+
+- type: marking
+  id: WDTailVulpWag
+  bodyPart: Tail
+  markingCategory: Tail
+  speciesRestriction: [Vulpkanin, Felinid, Tajaran]
+  sprites:
+  - sprite: _WorldDi/Mobs/Customization/vulp_tails_wag.rsi
+    state: vulp-wagging
+  - sprite: _WorldDi/Mobs/Customization/vulp_tails_wag.rsi
+    state: vulp-wagging-fade
+
+- type: marking
+  id: WDTailVulpWagTip
+  bodyPart: Tail
+  markingCategory: Tail
+  speciesRestriction: [Vulpkanin, Felinid, Tajaran]
+  sprites:
+  - sprite: _WorldDi/Mobs/Customization/vulp_tails_wag.rsi
+    state: vulp-wagging
+  - sprite: _WorldDi/Mobs/Customization/vulp_tails_wag.rsi
+    state: vulp-wagging-tip
+
+- type: marking
+  id: WDTailCoyoteWag
+  bodyPart: Tail
+  markingCategory: Tail
+  speciesRestriction: [Vulpkanin, Felinid, Tajaran]
+  sprites:
+  - sprite: _WorldDi/Mobs/Customization/vulp_tails_wag.rsi
+    state: coyote-wagging
+
+# "Лисий хвост" from Dead Space (Soyuz) - the animated 10-frame wagging fox tail
+# with three colourable layers. On МК it is sponsor-gated; here it is free.
+- type: marking
+  id: WDTailFoxWagStripes
+  bodyPart: Tail
+  markingCategory: Tail
+  speciesRestriction: [Felinid, Tajaran, Vulpkanin]
+  coloring:
+    default:
+      type:
+        !type:CategoryColoring
+          category: Hair
+      fallbackTypes:
+        - !type:CategoryColoring
+          category: FacialHair
+        - !type:SkinColoring
+  sprites:
+  - sprite: _WorldDi/Mobs/Customization/fox_tail_wag.rsi
+    state: tail_fox_wag_stripes_prime
+  - sprite: _WorldDi/Mobs/Customization/fox_tail_wag.rsi
+    state: tail_fox_wag_stripes_second
+  - sprite: _WorldDi/Mobs/Customization/fox_tail_wag.rsi
+    state: tail_fox_wag_stripes_third

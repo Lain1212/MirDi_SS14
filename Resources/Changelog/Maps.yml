@@ -1,4 +1,4 @@
-﻿Entries:
+Entries:
 - author: ArtisticRoomba
   changes:
   - message: The mapping changelog has been added! This primarily serves as a way
@@ -695,4 +695,4 @@
   id: 119
   time: '2026-01-02T00:05:10.0000000+00:00'
   url: https://github.com/space-wizards/space-station-14/pull/42124
-Order: 2
+Order: 3 # WorldDi - shifted down one, MirDi tab takes 0

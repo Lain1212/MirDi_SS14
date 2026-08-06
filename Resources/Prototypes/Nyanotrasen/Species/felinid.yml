@@ -3,7 +3,7 @@
 - type: species
   id: Felinid
   name: species-name-felinid
-  roundStart: false # Goobstation change
+  roundStart: true # WorldDi - felinids enabled
   prototype: MobFelinid
   sprites: MobHumanSprites
   markingLimits: MobFelinidMarkingLimits
@@ -23,10 +23,13 @@
       points: 1
       required: true
       defaultMarkings: [ FelinidTailBasic ]
-    HeadTop:
-      points: 1
+    HeadTop: # WorldDi - 2 points so ears and horns can be worn together
+      points: 2
       required: true
       defaultMarkings: [ FelinidEarsBasic ]
+    HeadSide: # WorldDi - ears/earrings
+      points: 8
+      required: false
     Chest:
       points: 1
       required: false

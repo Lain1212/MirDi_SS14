@@ -13,7 +13,7 @@
     - Reptilian
     - SlimePerson
     # Goobstation
-    # - Felinid
+    - Felinid # WorldDi - felinids enabled
     - Gingerbread
     - Harpy
     - Vox
@@ -65,11 +65,11 @@
   name: species-name-slime
   text: "/ServerInfo/Guidebook/Mobs/SlimePerson.xml"
 
-# Goobstation
-#- type: guideEntry
-#  id: Felinid
-#  name: species-name-felinid
-#  text: "/ServerInfo/Guidebook/Mobs/Felinid.xml"
+# Goobstation # WorldDi - felinids enabled
+- type: guideEntry
+  id: Felinid
+  name: species-name-felinid
+  text: "/ServerInfo/Guidebook/Mobs/Felinid.xml"
 
 - type: guideEntry
   id: Gingerbread

@@ -1,0 +1,31 @@
+{
+    "version": 1,
+    "license": "CC-BY-SA-3.0",
+    "copyright": "Created by discord:LunaLita#0840, taken from Dead Space (Soyuz) at https://github.com/dead-space-server/space-station-14-soyuz",
+    "size": {
+        "x": 32,
+        "y": 32
+    },
+    "states": [
+        {
+            "name": "cow_ears",
+            "directions": 4
+        },
+        {
+            "name": "demon_ears",
+            "directions": 4
+        },
+        {
+            "name": "cow_horns",
+            "directions": 4
+        },
+        {
+            "name": "deer_antlers_horns",
+            "directions": 4
+        },
+        {
+            "name": "small_horns",
+            "directions": 4
+        }
+    ]
+}
