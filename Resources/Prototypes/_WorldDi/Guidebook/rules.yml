@@ -1,0 +1,240 @@
+# Правила сервера МирДи (https://mirdi.space/wiki/server-rules)
+- type: guideEntry
+  id: MirDiRuleset
+  name: Правила сервера
+  priority: 0
+  ruleEntry: true
+  text: "/ServerInfo/_WorldDi/Guidebook/ServerRules/MirDiRuleset.xml"
+  children:
+  - MirDiRule0
+  - MirDiRule1
+  - MirDiRule11
+  - MirDiRule12
+  - MirDiRule2
+  - MirDiRule21
+  - MirDiRule3
+  - MirDiRule31
+  - MirDiRule32
+  - MirDiRule33
+  - MirDiRule34
+  - MirDiRule35
+  - MirDiRule36
+  - MirDiRule37
+  - MirDiRule38
+  - MirDiRule4
+  - MirDiRule41
+  - MirDiRule42
+  - MirDiRule43
+  - MirDiRule44
+  - MirDiRule5
+  - MirDiRule51
+  - MirDiRule6
+  - MirDiRule7
+  - MirDiRule8
+  - MirDiRule9
+  - MirDiRule91
+  - MirDiRule92
+  - MirDiRule10
+
+- type: guideEntry
+  id: MirDiRule0
+  name: Правило 0
+  priority: 1
+  ruleEntry: true
+  text: "/ServerInfo/_WorldDi/Guidebook/ServerRules/Rule0.xml"
+
+- type: guideEntry
+  id: MirDiRule1
+  name: Правило 1
+  priority: 2
+  ruleEntry: true
+  text: "/ServerInfo/_WorldDi/Guidebook/ServerRules/Rule1.xml"
+
+- type: guideEntry
+  id: MirDiRule11
+  name: Правило 1.1
+  priority: 3
+  ruleEntry: true
+  text: "/ServerInfo/_WorldDi/Guidebook/ServerRules/Rule1.1.xml"
+
+- type: guideEntry
+  id: MirDiRule12
+  name: Правило 1.2
+  priority: 4
+  ruleEntry: true
+  text: "/ServerInfo/_WorldDi/Guidebook/ServerRules/Rule1.2.xml"
+
+- type: guideEntry
+  id: MirDiRule2
+  name: Правило 2
+  priority: 5
+  ruleEntry: true
+  text: "/ServerInfo/_WorldDi/Guidebook/ServerRules/Rule2.xml"
+
+- type: guideEntry
+  id: MirDiRule21
+  name: Правило 2.1
+  priority: 6
+  ruleEntry: true
+  text: "/ServerInfo/_WorldDi/Guidebook/ServerRules/Rule2.1.xml"
+
+- type: guideEntry
+  id: MirDiRule3
+  name: Правило 3
+  priority: 7
+  ruleEntry: true
+  text: "/ServerInfo/_WorldDi/Guidebook/ServerRules/Rule3.xml"
+
+- type: guideEntry
+  id: MirDiRule31
+  name: Правило 3.1
+  priority: 8
+  ruleEntry: true
+  text: "/ServerInfo/_WorldDi/Guidebook/ServerRules/Rule3.1.xml"
+
+- type: guideEntry
+  id: MirDiRule32
+  name: Правило 3.2
+  priority: 9
+  ruleEntry: true
+  text: "/ServerInfo/_WorldDi/Guidebook/ServerRules/Rule3.2.xml"
+
+- type: guideEntry
+  id: MirDiRule33
+  name: Правило 3.3
+  priority: 10
+  ruleEntry: true
+  text: "/ServerInfo/_WorldDi/Guidebook/ServerRules/Rule3.3.xml"
+
+- type: guideEntry
+  id: MirDiRule34
+  name: Правило 3.4
+  priority: 11
+  ruleEntry: true
+  text: "/ServerInfo/_WorldDi/Guidebook/ServerRules/Rule3.4.xml"
+
+- type: guideEntry
+  id: MirDiRule35
+  name: Правило 3.5
+  priority: 12
+  ruleEntry: true
+  text: "/ServerInfo/_WorldDi/Guidebook/ServerRules/Rule3.5.xml"
+
+- type: guideEntry
+  id: MirDiRule36
+  name: Правило 3.6
+  priority: 13
+  ruleEntry: true
+  text: "/ServerInfo/_WorldDi/Guidebook/ServerRules/Rule3.6.xml"
+
+- type: guideEntry
+  id: MirDiRule37
+  name: Правило 3.7
+  priority: 14
+  ruleEntry: true
+  text: "/ServerInfo/_WorldDi/Guidebook/ServerRules/Rule3.7.xml"
+
+- type: guideEntry
+  id: MirDiRule38
+  name: Правило 3.8
+  priority: 15
+  ruleEntry: true
+  text: "/ServerInfo/_WorldDi/Guidebook/ServerRules/Rule3.8.xml"
+
+- type: guideEntry
+  id: MirDiRule4
+  name: Правило 4
+  priority: 16
+  ruleEntry: true
+  text: "/ServerInfo/_WorldDi/Guidebook/ServerRules/Rule4.xml"
+
+- type: guideEntry
+  id: MirDiRule41
+  name: Правило 4.1
+  priority: 17
+  ruleEntry: true
+  text: "/ServerInfo/_WorldDi/Guidebook/ServerRules/Rule4.1.xml"
+
+- type: guideEntry
+  id: MirDiRule42
+  name: Правило 4.2
+  priority: 18
+  ruleEntry: true
+  text: "/ServerInfo/_WorldDi/Guidebook/ServerRules/Rule4.2.xml"
+
+- type: guideEntry
+  id: MirDiRule43
+  name: Правило 4.3
+  priority: 19
+  ruleEntry: true
+  text: "/ServerInfo/_WorldDi/Guidebook/ServerRules/Rule4.3.xml"
+
+- type: guideEntry
+  id: MirDiRule44
+  name: Правило 4.4
+  priority: 20
+  ruleEntry: true
+  text: "/ServerInfo/_WorldDi/Guidebook/ServerRules/Rule4.4.xml"
+
+- type: guideEntry
+  id: MirDiRule5
+  name: Правило 5
+  priority: 21
+  ruleEntry: true
+  text: "/ServerInfo/_WorldDi/Guidebook/ServerRules/Rule5.xml"
+
+- type: guideEntry
+  id: MirDiRule51
+  name: Правило 5.1
+  priority: 22
+  ruleEntry: true
+  text: "/ServerInfo/_WorldDi/Guidebook/ServerRules/Rule5.1.xml"
+
+- type: guideEntry
+  id: MirDiRule6
+  name: Правило 6
+  priority: 23
+  ruleEntry: true
+  text: "/ServerInfo/_WorldDi/Guidebook/ServerRules/Rule6.xml"
+
+- type: guideEntry
+  id: MirDiRule7
+  name: Правило 7
+  priority: 24
+  ruleEntry: true
+  text: "/ServerInfo/_WorldDi/Guidebook/ServerRules/Rule7.xml"
+
+- type: guideEntry
+  id: MirDiRule8
+  name: Правило 8
+  priority: 25
+  ruleEntry: true
+  text: "/ServerInfo/_WorldDi/Guidebook/ServerRules/Rule8.xml"
+
+- type: guideEntry
+  id: MirDiRule9
+  name: Правило 9
+  priority: 26
+  ruleEntry: true
+  text: "/ServerInfo/_WorldDi/Guidebook/ServerRules/Rule9.xml"
+
+- type: guideEntry
+  id: MirDiRule91
+  name: Правило 9.1
+  priority: 27
+  ruleEntry: true
+  text: "/ServerInfo/_WorldDi/Guidebook/ServerRules/Rule9.1.xml"
+
+- type: guideEntry
+  id: MirDiRule92
+  name: Правило 9.2
+  priority: 28
+  ruleEntry: true
+  text: "/ServerInfo/_WorldDi/Guidebook/ServerRules/Rule9.2.xml"
+
+- type: guideEntry
+  id: MirDiRule10
+  name: Правило 10
+  priority: 29
+  ruleEntry: true
+  text: "/ServerInfo/_WorldDi/Guidebook/ServerRules/Rule10.xml"

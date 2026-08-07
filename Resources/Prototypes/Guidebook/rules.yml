@@ -4,14 +4,9 @@
   id: DefaultRuleset
   name: guide-entry-rules
   priority: 60
-  text: "/ServerInfo/_CorvaxGoob/Guidebook/ServerRules/MrpRuleset.xml" # CorvaxGoob-MRPRules
+  text: "/ServerInfo/_WorldDi/Guidebook/ServerRules/MirDiRuleset.xml" # MirDi rules
   children:
-  - CoreRules
-  - RoleplayRules
-  - SiliconRules
-  - RoleTypes
-  - BanTypes
-  - BanDurations
+  - MirDiRuleset
 
 - type: guideEntry
   id: RoleTypes
