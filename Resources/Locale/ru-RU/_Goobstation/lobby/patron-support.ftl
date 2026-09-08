@@ -36,3 +36,8 @@ patron-support-window-tier6-perk5 = • 🎔 Вы прекрасны!
 patron-support-window-tier7-name = ☭ Союз Советских Социалистических Планет (12000RUB/месяц)
 patron-support-window-tier7-perk1 = = Всё за предыдущий уровень
 patron-support-window-button = Посетить наш Boosty
+
+discord-invite-window-title = Дискорд Сервер
+discord-invite-window-header = Присоединяйтесь к нашему Discord!
+discord-invite-window-description = Станьте частью нашей команды! В Discord вы сможете первыми узнавать о свежих обновлениях, общаться с игроками вне раундов, делиться своими идеями по улучшению сервера и предлагать новые механики. Ждем именно вас!
+discord-invite-window-button = Присоединиться

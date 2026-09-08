@@ -251,6 +251,10 @@
             max: 1
       - !type:DoActsBehavior
         acts: [ "Destruction" ]
+  - type: FloorTile # WorldDi
+    outputs:
+    - FloorPlasmaGlass
+
 
 - type: entity
   parent: SheetPGlass
@@ -392,6 +396,10 @@
         - ReagentId: Uranium
           Quantity: 10
         canReact: false
+  - type: FloorTile # WorldDi
+    outputs:
+    - FloorUraniumGlass
+
 
 - type: entity
   parent: SheetUGlass
@@ -523,6 +531,10 @@
         - ReagentId: Copper
           Quantity: 6.7
         canReact: false
+  - type: FloorTile # WorldDi
+    outputs:
+    - FloorBronzeGlass
+
 
 - type: entity
   parent: SheetClockworkGlass

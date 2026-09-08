@@ -1,0 +1,53 @@
+# Капсула генетического сканера
+- type: entity
+  id: GeneticsScanner
+  parent: BaseStructure
+  name: Генетическая капсула
+  description: Вмещает в себя пациента для считывания и изменения UI структуры генов.
+  components:
+  - type: GeneticsScanner
+  - type: Sprite
+    sprite: Structures/Machines/cloning.rsi
+    snapCardinals: true
+    layers:
+      - state: pod_0
+  - type: ContainerContainer
+    containers:
+      machine_board: !type:ContainerSlot
+      machine_parts: !type:ContainerSlot
+      occupant: !type:ContainerSlot
+
+# Консоль управления генетикой
+- type: entity
+  id: GeneticsConsole
+  parent: BaseComputer
+  name: Генетическая консоль управления
+  description: Позволяет точечно рероллить 16-ричные значения Unique Identifiers.
+  components:
+  - type: GeneticsConsole
+  - type: Sprite
+    sprite: Structures/Machines/computer.rsi
+    layers:
+      - state: computer
+      - state: medical
+        map: ["computerLayerKeyboard"]
+  # ИСПРАВЛЕНИЕ: Добавили активатор UI из твоего примера, чтобы окно открывалось по клику
+  - type: ActivatableUI
+    key: enum.GeneticsConsoleUiKey.Key
+  - type: UserInterface
+    interfaces:
+      # ИСПРАВЛЕНИЕ: Точный короткий синтаксис ключа, который схавает твой движок
+      enum.GeneticsConsoleUiKey.Key:
+        type: GeneticsConsoleBoundUserInterface
+
+# Генетический инжектор (Имплантер)
+- type: entity
+  id: GeneticsInjector
+  parent: BaseItem
+  name: Генетический инжектор
+  description: Устройство для точечного впрыскивания измененных цепочек ДНК.
+  components:
+  - type: DNAInjector
+  - type: Sprite
+    sprite: Objects/Tools/implanter.rsi
+    state: icon

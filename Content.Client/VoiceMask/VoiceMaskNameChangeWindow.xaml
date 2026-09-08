@@ -31,5 +31,25 @@ SPDX-License-Identifier: MIT
             <!-- Job icon buttons are generated in the code -->
         </GridContainer>
         <!-- GabyStation -> Radio icons end -->
+
+        <!-- MirDi Barks Start -->
+        <BoxContainer Orientation="Vertical" Margin="5" Name="BarkMaskContainer">
+            <Label Text="{Loc 'voice-mask-barks-settings'}"/>
+            <BoxContainer Orientation="Horizontal" Margin="2">
+                <Label Text="{Loc 'humanoid-profile-editor-barks-VoiceID'}:" MinWidth="120" />
+                <OptionButton Name="BarkVoiceSelector" HorizontalExpand="True" />
+            </BoxContainer>
+            <BoxContainer Orientation="Horizontal" Margin="2">
+                <Label Text="{Loc 'humanoid-profile-editor-barks-Pitch'}:" MinWidth="120" />
+                <Slider Name="BarkPitchSlider" MinValue="0.5" MaxValue="2.0" Value="1.0" HorizontalExpand="True" />
+                <Label Name="BarkPitchLabel" Text="1.00" MinWidth="40" Margin="5,0,0,0" />
+            </BoxContainer>
+            <BoxContainer Orientation="Horizontal" Margin="2">
+                <Label Text="{Loc 'humanoid-profile-editor-barks-PitchVar'}:" MinWidth="120" />
+                <Slider Name="BarkPitchVarSlider" MinValue="0.0" MaxValue="0.3" Value="0.0" HorizontalExpand="True" />
+                <Label Name="BarkPitchVarLabel" Text="0.00" MinWidth="40" Margin="5,0,0,0" />
+            </BoxContainer>
+        </BoxContainer>
+        <!-- MirDi Barks End -->
     </BoxContainer>
 </controls:FancyWindow>

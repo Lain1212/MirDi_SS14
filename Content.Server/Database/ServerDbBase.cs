@@ -294,8 +294,11 @@ namespace Content.Server.Database
                 traits.ToHashSet(),
                 loadouts,
                 profile.Height, // MirDi-HeightWidth
-                profile.Width // MirDi-HeightWidth
-                // barkVoice // Goob Station - Barks // CorvaxGoob-Revert : DB conflicts
+                profile.Width, // MirDi-HeightWidth
+                profile.VoiceBarkPitch, // MirDi-Barks
+                profile.VoiceBarkPitchVar, // MirDi-Barks
+                profile.VoiceBarkId // MirDi-Barks
+                                    // barkVoice // Goob Station - Barks // CorvaxGoob-Revert : DB conflicts
             );
         }
 
@@ -317,6 +320,9 @@ namespace Content.Server.Database
             profile.Age = humanoid.Age;
             profile.Height = humanoid.Height; // MirDi-HeightWidth
             profile.Width = humanoid.Width; // MirDi-HeightWidth
+            profile.VoiceBarkId = humanoid.VoiceBarkId; // MirDi-Barks
+            profile.VoiceBarkPitch = humanoid.VoiceBarkPitch; // MirDi-Barks
+            profile.VoiceBarkPitchVar = humanoid.VoiceBarkPitchVar; // MirDi-Barks
             profile.Sex = humanoid.Sex.ToString();
             profile.Gender = humanoid.Gender.ToString();
             profile.HairName = appearance.HairStyleId;

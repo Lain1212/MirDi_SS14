@@ -51,6 +51,8 @@ public sealed partial class MiscTab : Control
         Control.AddOptionDropDown(CVars.InterfaceTheme, DropDownHudTheme, themeEntries);
         Control.AddOptionDropDown(CCVars.UILayout, DropDownHudLayout, layoutEntries);
 
+        Control.AddOptionCheckBox(Shared._WorldDi.CCVars.ChatVoiceBarksEnabled, ChatVoiceBarksCheckBox); // MirDi-Barks
+        Control.AddOptionCheckBox(Shared._WorldDi.CCVars.ChatTextAnimationEnabled, ChatTextAnimationCheckBox); // MirDi-Animation-Chat
         Control.AddOptionCheckBox(CVars.DiscordEnabled, DiscordRich);
         Control.AddOptionCheckBox(CCVars.ShowOocPatronColor, ShowOocPatronColor);
         Control.AddOptionCheckBox(CCVars.LoocAboveHeadShow, ShowLoocAboveHeadCheckBox);

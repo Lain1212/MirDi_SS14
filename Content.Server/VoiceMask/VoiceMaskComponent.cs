@@ -48,6 +48,29 @@ public sealed partial class VoiceMaskComponent : Component
     public string VoiceId = SharedHumanoidAppearanceSystem.DefaultVoice;
     // CorvaxGoob-TTS-End
 
+    // MirDi-Barks-Start
+    [DataField]
+    public string? VoiceBarkPrototypeId = null;
+
+    [DataField]
+    public float? VoiceBarkPitch = null;
+
+    [DataField]
+    public float? VoiceBarkPitchVar = null;
+
+    [DataField]
+    public string? OriginalVoiceId = null;
+
+    [DataField]
+    public float OriginalBasePitch = 1.0f;
+
+    [DataField]
+    public float OriginalPitchVariation = 0.0f;
+
+    [DataField]
+    public bool HasBackup = false;
+    // MirDi-Barks-End
+
     /// <summary>
     ///     Reference to the action.
     /// </summary>

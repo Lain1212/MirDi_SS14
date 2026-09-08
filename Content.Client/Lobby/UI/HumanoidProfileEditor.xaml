@@ -116,6 +116,26 @@ SPDX-License-Identifier: AGPL-3.0-or-later
                                     <Button Name="BarkVoicePlayButton" Text="{Loc 'humanoid-profile-editor-voice-play'}" MaxWidth="80" />
                                 </BoxContainer> -->
                                 <!-- Corvax-Frontier-Barks-End -->
+                                
+                                <!-- begin MirDi-Barks: Ползунки настройки звука реплик -->
+                                <BoxContainer HorizontalExpand="True">
+                                    <Label Text="{Loc 'humanoid-profile-editor-barks-VoiceID'}:" MinWidth="110" VerticalAlignment="Center" />
+                                    <OptionButton Name="VoiceBarkOptionButton" HorizontalExpand="True" Margin="5 0 5 0" />
+                                    <Button Name="VoiceBarkPlayButton" Text="{Loc 'humanoid-profile-editor-barks-play'}" />
+                                </BoxContainer>
+
+                                <BoxContainer HorizontalExpand="True">
+                                    <Label Text="{Loc 'humanoid-profile-editor-barks-Pitch'}:" MinWidth="110" VerticalAlignment="Center" />
+                                    <Slider Name="VoiceBarkPitchSlider" MinValue="0.5" Value="1.0" MaxValue="2.0" HorizontalExpand="True" Margin="5 0 5 0" />
+                                    <Label Name="VoiceBarkPitchLabel" Text="1.00" MinWidth="35" VerticalAlignment="Center" />
+                                </BoxContainer>
+
+                                <BoxContainer HorizontalExpand="True">
+                                    <Label Text="{Loc 'humanoid-profile-editor-barks-PitchVar'}:" MinWidth="110" VerticalAlignment="Center" />
+                                    <Slider Name="VoiceBarkPitchVarSlider" MinValue="0.0" Value="0.05" MaxValue="0.3" HorizontalExpand="True" Margin="5 0 5 0" />
+                                    <Label Name="VoiceBarkPitchVarLabel" Text="0.05" MinWidth="35" VerticalAlignment="Center" />
+                                </BoxContainer>
+                                <!-- end MirDi-Barks -->
                             </BoxContainer>
                             <!-- Skin -->
                             <BoxContainer Margin="10" HorizontalExpand="True" Orientation="Vertical">

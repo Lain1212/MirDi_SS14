@@ -155,6 +155,11 @@ namespace Content.Shared.Preferences
         public float Width { get; set; } = 1f;
         // MirDi-HeightWidth-End
 
+        [DataField] public string VoiceBarkId { get; set; } = "DefaultVoice"; // MirDi-Barks
+        [DataField] public float VoiceBarkPitch { get; set; } = 1f; // MirDi-Barks
+        [DataField] public float VoiceBarkPitchVar { get; set; } = 0f; // MirDi-Barks
+
+
         [DataField]
         public Sex Sex { get; private set; } = Sex.Male;
 
@@ -215,8 +220,12 @@ namespace Content.Shared.Preferences
             HashSet<ProtoId<TraitPrototype>> traitPreferences,
             Dictionary<string, RoleLoadout> loadouts,
             float height = 1f, // MirDi-HeightWidth
-            float width = 1f) // MirDi-HeightWidth
-            // ProtoId<BarkPrototype> barkVoice) // Goob Station - Barks // CorvaxGoob-Revert : DB conflicts
+            float width = 1f, // MirDi-HeightWidth
+            float voiceBarkPitch = 1.0f, // MirDi-Barks
+            float voiceBarkPitchVar = 0.05f, // MirDi-Barks
+            string voiceBarkId = "DefaultVoice") // MirDi-Barks
+
+        // ProtoId<BarkPrototype> barkVoice) // Goob Station - Barks // CorvaxGoob-Revert : DB conflicts
         {
             Name = name;
             FlavorText = flavortext;
@@ -225,6 +234,9 @@ namespace Content.Shared.Preferences
             Age = age;
             Height = height; // MirDi-HeightWidth
             Width = width; // MirDi-HeightWidth
+            VoiceBarkId = voiceBarkId; // MirDi-Barks
+            VoiceBarkPitch = voiceBarkPitch; // MirDi-Barks
+            VoiceBarkPitchVar = voiceBarkPitchVar; // MirDi-Barks
             Sex = sex;
             Gender = gender;
             Appearance = appearance;
@@ -268,7 +280,10 @@ namespace Content.Shared.Preferences
                 new HashSet<ProtoId<TraitPrototype>>(other.TraitPreferences),
                 new Dictionary<string, RoleLoadout>(other.Loadouts),
                 other.Height, // MirDi-HeightWidth
-                other.Width) // MirDi-HeightWidth
+                other.Width, // MirDi-HeightWidth
+                other.VoiceBarkPitch, // MirDi-Barks
+                other.VoiceBarkPitchVar, // MirDi-Barks 
+                other.VoiceBarkId) // MirDi-Barks
                 // other.BarkVoice) // Goob Station - Barks // CorvaxGoob-Revert : DB conflicts
         {
         }
@@ -324,6 +339,10 @@ namespace Content.Shared.Preferences
             var age = 18;
             var height = 1f; // Goobstation: port EE height/width sliders
             var width = 1f; // Goobstation: port EE height/width sliders
+            var availableBarks = prototypeManager.EnumeratePrototypes<Speech.VoicePrototype>().Where(o => o.Roundstart).ToArray();
+            var voiceBarkId = availableBarks.Length > 0 ? random.Pick(availableBarks).ID : "DefaultVoice";
+            var voiceBarkPitch = random.NextFloat(0.75f, 1.25f);
+            var voiceBarkPitchVar = random.NextFloat(0.00f, 0.08f);
             if (prototypeManager.TryIndex<SpeciesPrototype>(species, out var speciesPrototype))
             {
                 sex = random.Pick(speciesPrototype.Sexes);
@@ -372,6 +391,9 @@ namespace Content.Shared.Preferences
                 TTSVoice = voiceId, // CorvaxGoob-TTS
                 Height = height, // MirDi-HeightWidth
                 Width = width, // MirDi-HeightWidth
+                VoiceBarkId = voiceBarkId, // MirDi-Barks
+                VoiceBarkPitch = voiceBarkPitch, // MirDi-Barks
+                VoiceBarkPitchVar = voiceBarkPitchVar, // MirDi-Barks
                 Appearance = HumanoidCharacterAppearance.Random(species, sex),
                 // BarkVoice = barkvoiceId, // Goob Station - Barks // CorvaxGoob-Revert : DB conflicts
             };
@@ -434,15 +456,25 @@ namespace Content.Shared.Preferences
         {
             return new(this) { Width = width };
         }
-        // MirDi-HeightWidth-End
+        // MirDi-HeightWidth-End, MirDi-Barks-Start
+        public HumanoidCharacterProfile WithVoiceBarkId(string voiceBarkId)
+        {
+            return new HumanoidCharacterProfile(this) { VoiceBarkId = voiceBarkId };
+        }
+
+        public HumanoidCharacterProfile WithVoiceBarkPitch(float pitch, float variation)
+        {
+            return new HumanoidCharacterProfile(this) { VoiceBarkPitch = pitch, VoiceBarkPitchVar = variation };
+        }
+        // MirDi-Barks-End
 
         // CorvaxGoob-Revert : DB conflicts
-/*        // Goob Station - Barks Start
-        public HumanoidCharacterProfile WithBarkVoice(BarkPrototype barkVoice)
-        {
-            return new(this) { BarkVoice = barkVoice };
-        }
-        // Goob Station - Barks End*/
+        /*        // Goob Station - Barks Start
+                public HumanoidCharacterProfile WithBarkVoice(BarkPrototype barkVoice)
+                {
+                    return new(this) { BarkVoice = barkVoice };
+                }
+                // Goob Station - Barks End*/
 
         public HumanoidCharacterProfile WithJobPriorities(IEnumerable<KeyValuePair<ProtoId<JobPrototype>, JobPriority>> jobPriorities)
         {
@@ -606,6 +638,9 @@ namespace Content.Shared.Preferences
             if (Species != other.Species) return false;
             if (!MathHelper.CloseTo(Height, other.Height)) return false; // MirDi-HeightWidth
             if (!MathHelper.CloseTo(Width, other.Width)) return false; // MirDi-HeightWidth
+            if (VoiceBarkId != other.VoiceBarkId) return false; // MirDi-Barks
+            if (!MathHelper.CloseTo(VoiceBarkPitch, other.VoiceBarkPitch)) return false; // MirDi-Barks
+            if (!MathHelper.CloseTo(VoiceBarkPitchVar, other.VoiceBarkPitchVar)) return false; // MirDi-Barks
             // if (BarkVoice != other.BarkVoice) return false; // Goob Station - Barks // CorvaxGoob-Clearing
             if (PreferenceUnavailable != other.PreferenceUnavailable) return false;
             if (SpawnPriority != other.SpawnPriority) return false;
@@ -653,7 +688,16 @@ namespace Content.Shared.Preferences
             // MirDi-HeightWidth-Start
             var height = Math.Clamp(Height, speciesPrototype.MinHeight, speciesPrototype.MaxHeight);
             var width = Math.Clamp(Width, speciesPrototype.MinWidth, speciesPrototype.MaxWidth);
-            // MirDi-HeightWidth-End
+            // MirDi-HeightWidth-End, MirDi-Barks-Start
+            var voiceBarkPitch = Math.Clamp(VoiceBarkPitch, 0.5f, 2.0f);
+            var voiceBarkPitchVar = Math.Clamp(VoiceBarkPitchVar, 0.0f, 0.3f);
+            var voiceBarkId = VoiceBarkId;
+            if (!prototypeManager.HasIndex<Speech.VoicePrototype>(voiceBarkId))
+            {
+                voiceBarkId = "DefaultVoice";
+            }
+            // MirDi-Barks-End
+
 
             var gender = Gender switch
             {
@@ -761,6 +805,9 @@ namespace Content.Shared.Preferences
             Age = age;
             Height = height; // MirDi-HeightWidth
             Width = width; // MirDi-HeightWidth
+            VoiceBarkPitch = voiceBarkPitch; // MirDi-Barks
+            VoiceBarkPitchVar = voiceBarkPitchVar; // MirDi-Barks
+            VoiceBarkId = voiceBarkId; // MirDi-Barks
             Sex = sex;
             Gender = gender;
             Appearance = appearance;
@@ -808,6 +855,7 @@ namespace Content.Shared.Preferences
             {
                 _loadouts.Remove(value);
             }
+
         }
 
         /// <summary>
@@ -895,6 +943,9 @@ namespace Content.Shared.Preferences
             hashCode.Add(Species);
             hashCode.Add(Height); // MirDi-HeightWidth
             hashCode.Add(Width); // MirDi-HeightWidth
+            hashCode.Add(VoiceBarkId); // MirDi-Barks
+            hashCode.Add(VoiceBarkPitch); // MirDi-Barks
+            hashCode.Add(VoiceBarkPitchVar); // MirDi-Barks
             hashCode.Add(Age);
             hashCode.Add((int) Sex);
             hashCode.Add(TTSVoice); // CorvaxGoob-TTS

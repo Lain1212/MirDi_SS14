@@ -37,6 +37,7 @@ using Robust.Shared.Enums;
 using Robust.Shared.Physics;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Physics.Systems;
+using Robust.Shared.Timing; // CorvaxGoob-TTS
 using Robust.Shared.Utility;
 using Direction = Robust.Shared.Maths.Direction;
 using Content.Client._CorvaxGoob.TTS;
@@ -234,11 +235,11 @@ namespace Content.Client.Lobby.UI
             #region Barks
 
             // CorvaxGoob-Revert : DB conflicts
-/*            if (configurationManager.GetCVar(GoobCVars.BarksEnabled))
-            {
-                BarksContainer.Visible = true;
-                InitializeBarkVoice();
-            }*/
+            /*            if (configurationManager.GetCVar(GoobCVars.BarksEnabled))
+                        {
+                            BarksContainer.Visible = true;
+                            InitializeBarkVoice();
+                        }*/
 
             #endregion
 
@@ -918,6 +919,7 @@ namespace Content.Client.Lobby.UI
             UpdateCMarkingsHair();
             UpdateCMarkingsFacialHair();
             UpdateHeightWidthSliders(); // MirDi-HeightWidth
+            UpdateVoiceBarkControls(); // MirDi-Barks
 
             RefreshAntags();
             RefreshJobs();
@@ -1243,35 +1245,35 @@ namespace Content.Client.Lobby.UI
             switch (strategy.InputType)
             {
                 case SkinColorationStrategyInput.Unary:
-                {
-                    if (!Skin.Visible)
                     {
-                        Skin.Visible = true;
-                        RgbSkinColorContainer.Visible = false;
+                        if (!Skin.Visible)
+                        {
+                            Skin.Visible = true;
+                            RgbSkinColorContainer.Visible = false;
+                        }
+
+                        var color = strategy.FromUnary(Skin.Value);
+
+                        Markings.CurrentSkinColor = color;
+                        Profile = Profile.WithCharacterAppearance(Profile.Appearance.WithSkinColor(color));
+
+                        break;
                     }
-
-                    var color = strategy.FromUnary(Skin.Value);
-
-                    Markings.CurrentSkinColor = color;
-                    Profile = Profile.WithCharacterAppearance(Profile.Appearance.WithSkinColor(color));
-
-                    break;
-                }
                 case SkinColorationStrategyInput.Color:
-                {
-                    if (!RgbSkinColorContainer.Visible)
                     {
-                        Skin.Visible = false;
-                        RgbSkinColorContainer.Visible = true;
+                        if (!RgbSkinColorContainer.Visible)
+                        {
+                            Skin.Visible = false;
+                            RgbSkinColorContainer.Visible = true;
+                        }
+
+                        var color = strategy.ClosestSkinColor(_rgbSkinColorSelector.Color);
+
+                        Markings.CurrentSkinColor = color;
+                        Profile = Profile.WithCharacterAppearance(Profile.Appearance.WithSkinColor(color));
+
+                        break;
                     }
-
-                    var color = strategy.ClosestSkinColor(_rgbSkinColorSelector.Color);
-
-                    Markings.CurrentSkinColor = color;
-                    Profile = Profile.WithCharacterAppearance(Profile.Appearance.WithSkinColor(color));
-
-                    break;
-                }
             }
 
             ReloadProfilePreview();
@@ -1496,29 +1498,29 @@ namespace Content.Client.Lobby.UI
             switch (strategy.InputType)
             {
                 case SkinColorationStrategyInput.Unary:
-                {
-                    if (!Skin.Visible)
                     {
-                        Skin.Visible = true;
-                        RgbSkinColorContainer.Visible = false;
+                        if (!Skin.Visible)
+                        {
+                            Skin.Visible = true;
+                            RgbSkinColorContainer.Visible = false;
+                        }
+
+                        Skin.Value = strategy.ToUnary(Profile.Appearance.SkinColor);
+
+                        break;
                     }
-
-                    Skin.Value = strategy.ToUnary(Profile.Appearance.SkinColor);
-
-                    break;
-                }
                 case SkinColorationStrategyInput.Color:
-                {
-                    if (!RgbSkinColorContainer.Visible)
                     {
-                        Skin.Visible = false;
-                        RgbSkinColorContainer.Visible = true;
+                        if (!RgbSkinColorContainer.Visible)
+                        {
+                            Skin.Visible = false;
+                            RgbSkinColorContainer.Visible = true;
+                        }
+
+                        _rgbSkinColorSelector.Color = strategy.ClosestSkinColor(Profile.Appearance.SkinColor);
+
+                        break;
                     }
-
-                    _rgbSkinColorSelector.Color = strategy.ClosestSkinColor(Profile.Appearance.SkinColor);
-
-                    break;
-                }
             }
         }
 
@@ -1856,5 +1858,99 @@ namespace Content.Client.Lobby.UI
             ImportButton.Disabled = false;
             ExportButton.Disabled = false;
         }
+
+        // MirDi-Barks-Start
+        private static readonly float[] BarksTimeline = { 0.00f, 0.05f, 0.10f, 0.15f, 0.20f, 0.55f, 0.60f, 0.65f };
+        private static readonly TimeSpan PlaybackDebounceTime = TimeSpan.FromSeconds(0.75f);
+        private void InitializeVoiceBarkSettings()
+        {
+            VoiceBarkOptionButton.Clear();
+            var barks = _prototypeManager.EnumeratePrototypes<Shared.Speech.VoicePrototype>().ToList();
+            for (var i = 0; i < barks.Count; i++)
+            {
+                if (!barks[i].Roundstart) continue;
+                var displayName = Loc.GetString($"voice-id-{barks[i].ID}");
+                VoiceBarkOptionButton.AddItem(displayName, i);
+                VoiceBarkOptionButton.SetItemMetadata(i, barks[i].ID);
+            }
+
+            VoiceBarkPitchSlider.OnValueChanged += args =>
+            {
+                VoiceBarkPitchLabel.Text = args.Value.ToString("F2");
+                if (Profile == null) return;
+                Profile = Profile.WithVoiceBarkPitch(args.Value, (float) VoiceBarkPitchVarSlider.Value);
+                SetDirty();
+            };
+
+
+            VoiceBarkPitchVarSlider.OnValueChanged += args =>
+            {
+                VoiceBarkPitchVarLabel.Text = args.Value.ToString("F2");
+                if (Profile == null) return;
+                Profile = Profile.WithVoiceBarkPitch((float) VoiceBarkPitchSlider.Value, args.Value);
+                SetDirty();
+            };
+
+            VoiceBarkOptionButton.OnItemSelected += args =>
+            {
+                VoiceBarkOptionButton.SelectId(args.Id);
+                if (VoiceBarkOptionButton.GetItemMetadata(args.Id) is string voiceId)
+                {
+                    Profile = Profile?.WithVoiceBarkId(voiceId);
+                    SetDirty();
+                }
+            };
+            VoiceBarkPlayButton.OnPressed += _ =>
+            {
+                var selectedId = VoiceBarkOptionButton.SelectedId;
+                if (VoiceBarkOptionButton.GetItemMetadata(selectedId) is not string voiceId) return;
+                if (!_prototypeManager.TryIndex<Shared.Speech.VoicePrototype>(voiceId, out var voiceProto) || voiceProto.Sounds.Count == 0) return;
+
+                var random = IoCManager.Resolve<Robust.Shared.Random.IRobustRandom>();
+                var audioSystem = _entManager.System<Robust.Client.Audio.AudioSystem>();
+                VoiceBarkPlayButton.Disabled = true;
+                void PlayLetter()
+                {
+                    if (Disposed) return;
+                    var sound = Robust.Shared.Random.RandomExtensions.Pick(random, voiceProto.Sounds);
+                    var finalPitch = Math.Max(0.2f, (float) VoiceBarkPitchSlider.Value + random.NextFloat(-(float) VoiceBarkPitchVarSlider.Value, (float) VoiceBarkPitchVarSlider.Value));
+                    var audioParams = Robust.Shared.Audio.AudioParams.Default with { Pitch = finalPitch, Volume = voiceProto.Volume };
+                    audioSystem.PlayGlobal(sound, Robust.Shared.Player.Filter.Local(), false, audioParams);
+                }
+                foreach (var delay in BarksTimeline)
+                {
+                    Timer.Spawn(TimeSpan.FromSeconds(delay), PlayLetter);
+                }
+                Timer.Spawn(PlaybackDebounceTime, () =>
+                {
+                    if (!Disposed)
+                        VoiceBarkPlayButton.Disabled = false;
+                });
+            };
+        }
+
+
+        private void UpdateVoiceBarkControls()
+        {
+            if (Profile == null) return;
+            if (VoiceBarkOptionButton.ItemCount == 0)
+            {
+                InitializeVoiceBarkSettings();
+            }
+            VoiceBarkPitchSlider.SetValueWithoutEvent(Profile.VoiceBarkPitch);
+            VoiceBarkPitchLabel.Text = Profile.VoiceBarkPitch.ToString("F2");
+
+            VoiceBarkPitchVarSlider.SetValueWithoutEvent(Profile.VoiceBarkPitchVar);
+            VoiceBarkPitchVarLabel.Text = Profile.VoiceBarkPitchVar.ToString("F2");
+            for (var i = 0; i < VoiceBarkOptionButton.ItemCount; i++)
+            {
+                if (VoiceBarkOptionButton.GetItemMetadata(i) is string voiceId && voiceId == Profile.VoiceBarkId)
+                {
+                    VoiceBarkOptionButton.SelectId(i);
+                    break;
+                }
+            }
+        }
+        // MirDi-Barks-End
     }
 }

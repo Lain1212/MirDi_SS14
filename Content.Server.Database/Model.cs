@@ -444,7 +444,11 @@ namespace Content.Server.Database
         // MirDi-HeightWidth-Start
         public float Height { get; set; } = 1f;
         public float Width { get; set; } = 1f;
-        // MirDi-HeightWidth-End
+        // MirDi-HeightWidth-End, MirDi-Barks-Start
+        [Column("voice_bark_id")] public string VoiceBarkId { get; set; } = "DefaultVoice";
+        [Column("voice_bark_pitch")] public float VoiceBarkPitch { get; set; } = 1f;
+        [Column("voice_bark_pitch_var")] public float VoiceBarkPitchVar { get; set; } = 0f;
+        // MirDi-Barks-End
         public string Sex { get; set; } = null!;
         public string? Voice { get; set; } = null!; // CorvaxGoob-TTS
         public string Gender { get; set; } = null!;

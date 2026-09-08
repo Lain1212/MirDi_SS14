@@ -1,0 +1,48 @@
+
+- type: tile
+  id: FloorBronzeGlass
+  parent: BaseStationTile
+  name: tiles-bronze-glass-floor
+  sprite: /Textures/_WorldDi/Tiles/bronze_glass.png
+  variants: 4
+  placementVariants:
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  footstepSounds:
+    collection: FootstepTile
+  itemDrop: SheetClockworkGlass1
+  tileRipResistance: 150
+
+- type: tile
+  id: FloorPlasmaGlass
+  parent: BaseStationTile
+  name: tiles-plasma-glass-floor
+  sprite: /Textures/_WorldDi/Tiles/plasma_glass.png
+  variants: 4
+  placementVariants:
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  footstepSounds:
+    collection: FootstepTile
+  itemDrop: SheetPGlass1
+  tileRipResistance: 150
+
+- type: tile
+  id: FloorUraniumGlass
+  parent: BaseStationTile
+  name: tiles-uranium-glass-floor
+  sprite: /Textures/_WorldDi/Tiles/uranium_glass.png
+  variants: 4
+  placementVariants:
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  footstepSounds:
+    collection: FootstepTile
+  itemDrop: SheetUGlass1
+  tileRipResistance: 150

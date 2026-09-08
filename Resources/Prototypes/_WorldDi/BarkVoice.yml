@@ -1,0 +1,214 @@
+- type: voice
+  id: DefaultVoice # 1. ОБЯЗАТЕЛЬНЫЙ СТАНДАРТНЫЙ ГОЛОС (На него игра переключится сама, если голос не указан)
+  basePitch: 1.0
+  pitchVariation: 0
+  volume: -1.0
+  sounds:
+    - "/Audio/_WorldDi/Barks/Default.wav"
+
+- type: voice
+  id: BarkVoice
+  basePitch: 1.0
+  pitchVariation: 0
+  volume: -3.0
+  sounds:
+    - "/Audio/_WorldDi/Barks/Bark.wav"
+
+- type: voice
+  id: UndyneVoice
+  basePitch: 1.0
+  pitchVariation: 0
+  volume: -2.0
+  sounds:
+    - "/Audio/_WorldDi/Barks/snd_txtund.wav"
+
+- type: voice
+  id: FloweyVoice
+  basePitch: 1.0
+  pitchVariation: 0
+  volume: -2.0
+  sounds:
+    - "/Audio/_WorldDi/Barks/snd_floweytalk1.wav"
+
+- type: voice
+  id: Flowey2Voice
+  basePitch: 1.0
+  pitchVariation: 0
+  volume: -2.0
+  sounds:
+    - "/Audio/_WorldDi/Barks/snd_floweytalk2.wav"
+
+- type: voice
+  id: LancerVoice
+  basePitch: 1.0
+  pitchVariation: 0
+  volume: -2.0
+  sounds:
+    - "/Audio/_WorldDi/Barks/snd_txtlan.wav"
+
+- type: voice
+  id: NoelleVoice
+  basePitch: 1.0
+  pitchVariation: 0
+  volume: -2.0
+  sounds:
+    - "/Audio/_WorldDi/Barks/snd_txtnoe.wav"
+
+- type: voice
+  id: RalseiVoice
+  basePitch: 1.0
+  pitchVariation: 0
+  volume: -2.0
+  sounds:
+    - "/Audio/_WorldDi/Barks/snd_txtral.wav"
+
+- type: voice
+  id: RudinnVoice
+  basePitch: 1.0
+  pitchVariation: 0
+  volume: -2.0
+  sounds:
+    - "/Audio/_WorldDi/Barks/snd_txtrud.wav"
+
+- type: voice
+  id: GasterVoice
+  basePitch: 1.0
+  pitchVariation: 0
+  volume: -2.0
+  sounds:
+    - "/Audio/_WorldDi/Barks/Gaster/snd_wngdng1.wav"
+    - "/Audio/_WorldDi/Barks/Gaster/snd_wngdng2.wav"
+    # - "/Audio/_WorldDi/Barks/Gaster/snd_wngdng3.wav"
+    - "/Audio/_WorldDi/Barks/Gaster/snd_wngdng4.wav"
+    - "/Audio/_WorldDi/Barks/Gaster/snd_wngdng5.wav"
+    # - "/Audio/_WorldDi/Barks/Gaster/snd_wngdng6.wav"
+    - "/Audio/_WorldDi/Barks/Gaster/snd_wngdng7.wav"
+
+- type: voice
+  id: RudeVoice
+  basePitch: 1.0
+  pitchVariation: 0
+  volume: -4.0
+  sounds:
+    # - "/Audio/_WorldDi/Barks/RudeVoice/RudeVoice1.wav"
+    - "/Audio/_WorldDi/Barks/RudeVoice/RudeVoice2.wav"
+    - "/Audio/_WorldDi/Barks/RudeVoice/RudeVoice3.wav"
+
+- type: voice
+  id: DedVoice
+  basePitch: 1.0
+  pitchVariation: 0
+  volume: -3.0
+  sounds:
+    - "/Audio/_WorldDi/Barks/Ded/snd_txtrx1.wav"
+    - "/Audio/_WorldDi/Barks/Ded/snd_txtrx2.wav"
+    - "/Audio/_WorldDi/Barks/Ded/snd_txtrx3.wav"
+
+- type: voice
+  id: MeowVoice
+  basePitch: 1.0
+  pitchVariation: 0
+  volume: -3.0
+  sounds:
+    - "/Audio/_WorldDi/Barks/Meow/meow1.wav"
+    - "/Audio/_WorldDi/Barks/Meow/meow2.wav"
+    - "/Audio/_WorldDi/Barks/Meow/meow3.wav"
+    - "/Audio/_WorldDi/Barks/Meow/meow4.wav"
+
+- type: voice
+  id: ManVoice
+  basePitch: 1.0
+  pitchVariation: 0
+  volume: -4.0
+  sounds:
+    - "/Audio/_WorldDi/Barks/ManVoice/ManVoice1.wav"
+    - "/Audio/_WorldDi/Barks/ManVoice/ManVoice2.wav"
+    - "/Audio/_WorldDi/Barks/ManVoice/ManVoice3.wav"
+
+- type: voice
+  id: TemmieVoice
+  basePitch: 1.0
+  pitchVariation: 0
+  volume: -2.0
+  sounds:
+    - "/Audio/_WorldDi/Barks/Temmie/snd_tem1.wav"
+    - "/Audio/_WorldDi/Barks/Temmie/snd_tem2.wav"
+    - "/Audio/_WorldDi/Barks/Temmie/snd_tem3.wav"
+    - "/Audio/_WorldDi/Barks/Temmie/snd_tem4.wav"
+    - "/Audio/_WorldDi/Barks/Temmie/snd_tem5.wav"
+    - "/Audio/_WorldDi/Barks/Temmie/snd_tem6.wav"
+
+- type: voice
+  id: MazellovVoice
+  basePitch: 1.0
+  pitchVariation: 0
+  volume: -4.0
+  sounds:
+    - "/Audio/_WorldDi/Barks/Mazellov/Mazellov1.wav"
+    - "/Audio/_WorldDi/Barks/Mazellov/Mazellov2.wav"
+    - "/Audio/_WorldDi/Barks/Mazellov/Mazellov3.wav"
+
+- type: voice
+  id: GoobstationOneVoice
+  basePitch: 1.0
+  pitchVariation: 0
+  volume: -4.0
+  sounds:
+    - "/Audio/_WorldDi/Barks/Goobstation/aviu1/1.wav"
+    - "/Audio/_WorldDi/Barks/Goobstation/aviu1/2.wav"
+    - "/Audio/_WorldDi/Barks/Goobstation/aviu1/3.wav"
+    - "/Audio/_WorldDi/Barks/Goobstation/aviu1/4.wav"
+    - "/Audio/_WorldDi/Barks/Goobstation/aviu1/5.wav"
+    - "/Audio/_WorldDi/Barks/Goobstation/aviu1/6.wav"
+
+- type: voice
+  id: GoobstationTwoVoice
+  basePitch: 1.0
+  pitchVariation: 0
+  volume: -4.0
+  sounds:
+    - "/Audio/_WorldDi/Barks/Goobstation/aviu2/1.wav"
+    - "/Audio/_WorldDi/Barks/Goobstation/aviu2/2.wav"
+    - "/Audio/_WorldDi/Barks/Goobstation/aviu2/3.wav"
+    - "/Audio/_WorldDi/Barks/Goobstation/aviu2/4.wav"
+    - "/Audio/_WorldDi/Barks/Goobstation/aviu2/5.wav"
+    - "/Audio/_WorldDi/Barks/Goobstation/aviu2/6.wav"
+
+- type: voice
+  id: GoobstationThreeVoice
+  basePitch: 1.0
+  pitchVariation: 0
+  volume: -4.0
+  sounds:
+    - "/Audio/_WorldDi/Barks/Goobstation/aviu3/1.wav"
+    - "/Audio/_WorldDi/Barks/Goobstation/aviu3/2.wav"
+    - "/Audio/_WorldDi/Barks/Goobstation/aviu3/3.wav"
+    - "/Audio/_WorldDi/Barks/Goobstation/aviu3/4.wav"
+    - "/Audio/_WorldDi/Barks/Goobstation/aviu3/5.wav"
+    - "/Audio/_WorldDi/Barks/Goobstation/aviu3/6.wav"
+
+- type: voice
+  id: GoobstationFourVoice
+  basePitch: 1.0
+  pitchVariation: 0
+  volume: -4.0
+  sounds:
+    - "/Audio/_WorldDi/Barks/Goobstation/aviu4/1.wav"
+    - "/Audio/_WorldDi/Barks/Goobstation/aviu4/2.wav"
+    - "/Audio/_WorldDi/Barks/Goobstation/aviu4/3.wav"
+    - "/Audio/_WorldDi/Barks/Goobstation/aviu4/4.wav"
+    - "/Audio/_WorldDi/Barks/Goobstation/aviu4/5.wav"
+    - "/Audio/_WorldDi/Barks/Goobstation/aviu4/6.wav"
+
+- type: voice
+  id: GoobstationGoblinVoice
+  basePitch: 1.0
+  pitchVariation: 0
+  volume: -4.0
+  sounds:
+    - "/Audio/_WorldDi/Barks/Goobstation/Durk/a.wav"
+    - "/Audio/_WorldDi/Barks/Goobstation/Durk/e.wav"
+    - "/Audio/_WorldDi/Barks/Goobstation/Durk/i.wav"
+    - "/Audio/_WorldDi/Barks/Goobstation/Durk/o.wav"
+    - "/Audio/_WorldDi/Barks/Goobstation/Durk/u.wav"
+    - "/Audio/_WorldDi/Barks/Goobstation/Durk/y.wav"

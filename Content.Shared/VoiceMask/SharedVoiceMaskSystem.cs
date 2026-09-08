@@ -20,10 +20,14 @@ public sealed class VoiceMaskBuiState : BoundUserInterfaceState
     public readonly bool Active;
     public readonly bool AccentHide;
     public readonly string TTSVoice; // CorvaxGoob-TTS
-    public ProtoId<JobIconPrototype>? JobIcon { get; } // GabyStation -> Radio icons
+    public readonly string? BarkVoiceId;     // MirDi-Barks
+    public readonly float BarkPitch;        // MirDi-Barks
+    public readonly float BarkPitchVar;    // MirDi-Barks
+    public ProtoId<JobIconPrototype>? JobIcon { get; }
 
     public VoiceMaskBuiState(string name, string? verb, bool active, bool accentHide,
-        ProtoId<JobIconPrototype>? jobIcon, string voice) // GabyStation radio icons) // CorvaxGoob-TTS
+        ProtoId<JobIconPrototype>? jobIcon, string voice,
+        string? barkVoiceId, float barkPitch, float barkPitchVar)
     {
         Name = name;
         Verb = verb;
@@ -31,6 +35,9 @@ public sealed class VoiceMaskBuiState : BoundUserInterfaceState
         AccentHide = accentHide;
         TTSVoice = voice;  // CorvaxGoob-TTS
         JobIcon = jobIcon; // GabyStation -> Radio icons
+        BarkVoiceId = barkVoiceId;     // MirDi-Barks
+        BarkPitch = barkPitch;        // MirDi-Barks
+        BarkPitchVar = barkPitchVar; // MirDi-Barks
     }
 }
 
@@ -70,3 +77,19 @@ public sealed class VoiceMaskToggleMessage : BoundUserInterfaceMessage;
 /// </summary>
 [Serializable, NetSerializable]
 public sealed class VoiceMaskAccentToggleMessage : BoundUserInterfaceMessage;
+
+[Serializable, NetSerializable]
+public sealed class VoiceMaskChangeBarksMessage : BoundUserInterfaceMessage
+{
+    public readonly string? BarkVoiceId;
+    public readonly float BarkPitch;
+    public readonly float BarkPitchVar;
+
+    public VoiceMaskChangeBarksMessage(string? barkVoiceId, float barkPitch, float barkPitchVar)
+    {
+        BarkVoiceId = barkVoiceId;
+        BarkPitch = barkPitch;
+        BarkPitchVar = barkPitchVar;
+    }
+}
+

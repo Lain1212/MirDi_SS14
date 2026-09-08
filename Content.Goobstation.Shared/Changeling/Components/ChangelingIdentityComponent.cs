@@ -158,4 +158,23 @@ public sealed partial class TransformData
     /// </summary>
     [DataField, ViewVariables(VVAccess.ReadOnly), NonSerialized]
     public HumanoidAppearanceComponent Appearance;
+
+    // MirDi Barks Support
+    /// <summary>
+    ///     Entity's voice bark ID.
+    /// </summary>
+    [DataField("voiceBarkId")]
+    public string? VoiceBarkId;
+
+    /// <summary>
+    ///     Entity's voice bark base pitch.
+    /// </summary>
+    [DataField("voiceBarkPitch")]
+    public float VoiceBarkPitch = 1.0f;
+
+    /// <summary>
+    ///     Entity's voice bark pitch variation.
+    /// </summary>
+    [DataField("voiceBarkPitchVar")]
+    public float VoiceBarkPitchVar = 0.0f;
 }

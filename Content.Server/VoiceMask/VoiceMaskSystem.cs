@@ -57,6 +57,9 @@ public sealed partial class VoiceMaskSystem : EntitySystem
         SubscribeLocalEvent<VoiceMaskComponent, TransformSpeechEvent>(OnTransformSpeech, before: [typeof(AccentSystem)]);
         SubscribeLocalEvent<VoiceMaskComponent, InventoryRelayedEvent<TransformSpeechEvent>>(OnTransformSpeechInventory, before: [typeof(AccentSystem)]);
         SubscribeLocalEvent<VoiceMaskComponent, ImplantRelayEvent<TransformSpeechEvent>>(OnTransformSpeechImplant, before: [typeof(AccentSystem)]);
+        SubscribeLocalEvent<VoiceMaskComponent, VoiceMaskChangeBarksMessage>(OnChangeBarks);
+        SubscribeLocalEvent<VoiceMaskComponent, ClothingGotUnequippedEvent>(OnUnequip);
+
         InitializeTTS(); // CorvaxGoob-TTS
 
         Subs.CVar(_cfgManager, CCVars.MaxNameLength, value => _maxNameLength = value, true);
@@ -69,6 +72,19 @@ public sealed partial class VoiceMaskSystem : EntitySystem
     {
         if (entity.Comp.AccentHide && entity.Comp.Active)
             args.Cancel();
+        if (entity.Comp.Active && entity.Comp.VoiceBarkPrototypeId != null)
+        {
+            if (EntityManager.TryGetComponent<VoiceBarkComponent>(args.Sender, out var barkComp))
+            {
+                barkComp.VoiceId = entity.Comp.VoiceBarkPrototypeId;
+
+                if (entity.Comp.VoiceBarkPitch.HasValue)
+                    barkComp.BasePitch = entity.Comp.VoiceBarkPitch.Value;
+                if (entity.Comp.VoiceBarkPitchVar.HasValue)
+                    barkComp.PitchVariation = entity.Comp.VoiceBarkPitchVar.Value;
+                Dirty(args.Sender, barkComp);
+            }
+        }
     }
 
     private void OnTransformSpeech(Entity<VoiceMaskComponent> entity, ref TransformSpeechEvent args)
@@ -159,7 +175,15 @@ public sealed partial class VoiceMaskSystem : EntitySystem
     {
         _popupSystem.PopupEntity(Loc.GetString("voice-mask-popup-toggle"), entity, args.Actor);
         entity.Comp.Active = !entity.Comp.Active;
+        if (!entity.Comp.Active && entity.Comp.HasBackup && TryComp<VoiceBarkComponent>(args.Actor, out var barkComp))
+        {
+            barkComp.VoiceId = entity.Comp.OriginalVoiceId;
+            barkComp.BasePitch = entity.Comp.OriginalBasePitch;
+            barkComp.PitchVariation = entity.Comp.OriginalPitchVariation;
 
+            entity.Comp.OriginalVoiceId = null;
+            entity.Comp.HasBackup = false;
+        }
         // Update identity because of possible name override
         _identity.QueueIdentityUpdate(args.Actor);
     }
@@ -169,6 +193,23 @@ public sealed partial class VoiceMaskSystem : EntitySystem
         _popupSystem.PopupEntity(Loc.GetString("voice-mask-popup-accent-toggle"), entity, args.Actor);
         entity.Comp.AccentHide = !entity.Comp.AccentHide;
     }
+    private void OnChangeBarks(Entity<VoiceMaskComponent> entity, ref VoiceMaskChangeBarksMessage message)
+    {
+        if (EntityManager.TryGetComponent<VoiceBarkComponent>(message.Actor, out var barkComp))
+        {
+            barkComp.VoiceId = message.BarkVoiceId;
+            barkComp.BasePitch = message.BarkPitch;
+            barkComp.PitchVariation = message.BarkPitchVar;
+            Dirty(message.Actor, barkComp);
+
+            entity.Comp.VoiceBarkPrototypeId = message.BarkVoiceId;
+            entity.Comp.VoiceBarkPitch = message.BarkPitch;
+            entity.Comp.VoiceBarkPitchVar = message.BarkPitchVar;
+        }
+    }
+
+
+
     #endregion
 
     #region UI
@@ -176,9 +217,32 @@ public sealed partial class VoiceMaskSystem : EntitySystem
     {
         if (_lock.IsLocked(uid))
             return;
+
         if (component.EnableAction) //Goobstation
             _actions.AddAction(args.Wearer, ref component.ActionEntity, component.Action, uid);
+        if (!component.HasBackup && TryComp<VoiceBarkComponent>(args.Wearer, out var barkComp))
+        {
+            component.OriginalVoiceId = barkComp.VoiceId;
+            component.OriginalBasePitch = barkComp.BasePitch;
+            component.OriginalPitchVariation = barkComp.PitchVariation;
+            component.HasBackup = true;
+        }
     }
+    private void OnUnequip(EntityUid uid, VoiceMaskComponent component, ClothingGotUnequippedEvent args)
+    {
+        if (component.EnableAction)
+            _actions.RemoveAction(component.ActionEntity);
+        if (component.HasBackup && TryComp<VoiceBarkComponent>(args.Wearer, out var barkComp))
+        {
+            barkComp.VoiceId = component.OriginalVoiceId;
+            barkComp.BasePitch = component.OriginalBasePitch;
+            barkComp.PitchVariation = component.OriginalPitchVariation;
+            Dirty(args.Wearer, barkComp);
+            component.OriginalVoiceId = null;
+            component.HasBackup = false;
+        }
+    }
+
 
     private void OpenUI(VoiceMaskSetNameEvent ev)
     {
@@ -197,9 +261,21 @@ public sealed partial class VoiceMaskSystem : EntitySystem
     public void UpdateUI(Entity<VoiceMaskComponent> entity) // Make public by goobstation
     {
         if (_uiSystem.HasUi(entity, VoiceMaskUIKey.Key))
-            _uiSystem.SetUiState(entity.Owner, VoiceMaskUIKey.Key, new VoiceMaskBuiState(GetCurrentVoiceName(entity), entity.Comp.VoiceMaskSpeechVerb, entity.Comp.Active, entity.Comp.AccentHide,
-                entity.Comp.JobIconProtoId, entity.Comp.VoiceId)); // GabyStation -> Radio icons // CorvaxGoob-TTS
+        {
+            _uiSystem.SetUiState(entity.Owner, VoiceMaskUIKey.Key, new VoiceMaskBuiState(
+                GetCurrentVoiceName(entity),
+                entity.Comp.VoiceMaskSpeechVerb,
+                entity.Comp.Active,
+                entity.Comp.AccentHide,
+                entity.Comp.JobIconProtoId,
+                entity.Comp.VoiceId,
+                entity.Comp.VoiceBarkPrototypeId,
+                entity.Comp.VoiceBarkPitch ?? 1.0f,
+                entity.Comp.VoiceBarkPitchVar ?? 0.0f
+            ));
+        }
     }
+
     #endregion
 
     #region Helper functions

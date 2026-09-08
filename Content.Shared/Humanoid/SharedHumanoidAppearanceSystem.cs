@@ -1,21 +1,22 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-using System.IO;
-using System.Linq;
-using System.Numerics;
+using Content.Corvax.Interfaces.Shared;
+using Content.Goobstation.Common.Barks; // Goob Station - Barks
+using Content.Shared._CorvaxGoob.TTS;
+using Content.Shared._EinsteinEngines.HeightAdjust;
+using Content.Shared._Shitmed.Humanoid.Events; // Shitmed Change
 using Content.Shared.CCVar;
 using Content.Shared.Decals;
 using Content.Shared.Examine;
 using Content.Shared.Humanoid.Markings;
-using Content.Shared._Shitmed.Humanoid.Events; // Shitmed Change
 using Content.Shared.Humanoid.Prototypes;
 using Content.Shared.IdentityManagement;
 using Content.Shared.Inventory;
 using Content.Shared.Preferences;
-using Content.Shared._EinsteinEngines.HeightAdjust;
-using Content.Goobstation.Common.Barks; // Goob Station - Barks
+using Content.Shared.Speech;
 using Robust.Shared;
 using Robust.Shared.Configuration;
+using Robust.Shared.Enums;
 using Robust.Shared.GameObjects.Components.Localization;
 using Robust.Shared.Network;
 using Robust.Shared.Player;
@@ -23,10 +24,10 @@ using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization.Manager;
 using Robust.Shared.Serialization.Markdown;
 using Robust.Shared.Utility;
+using System.IO;
+using System.Linq;
+using System.Numerics;
 using YamlDotNet.RepresentationModel;
-using Content.Shared._CorvaxGoob.TTS;
-using Content.Corvax.Interfaces.Shared;
-using Robust.Shared.Enums;
 
 namespace Content.Shared.Humanoid;
 
@@ -554,6 +555,7 @@ public abstract class SharedHumanoidAppearanceSystem : EntitySystem
         SetTTSVoice(uid, profile.TTSVoice, humanoid); // CorvaxGoob-TTS
         // CorvaxGoob-Revert : DB conflicts
         // SetBarkVoice(uid, profile.BarkVoice, humanoid); // Goob Station - Barks
+        SetVoiceBarks(uid, profile); // MirDi - Barks
 
         humanoid.Gender = profile.Gender;
         if (TryComp<GrammarComponent>(uid, out var grammar))
@@ -617,6 +619,19 @@ public abstract class SharedHumanoidAppearanceSystem : EntitySystem
         comp.VoicePrototypeId = voiceId;
     }
     // CorvaxGoob-TTS-End
+
+    // MirDi-Barks-Start
+    public void SetVoiceBarks(EntityUid uid, HumanoidCharacterProfile profile)
+    {
+        var barkComp = EnsureComp<VoiceBarkComponent>(uid);
+
+        barkComp.VoiceId = profile.VoiceBarkId;
+        barkComp.BasePitch = profile.VoiceBarkPitch;
+        barkComp.PitchVariation = profile.VoiceBarkPitchVar;
+
+        Dirty(uid, barkComp);
+    }
+    // MirDi-Barks-End
 
     private void EnsureDefaultMarkings(EntityUid uid, HumanoidAppearanceComponent? humanoid)
     {

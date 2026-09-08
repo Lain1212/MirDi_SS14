@@ -82,6 +82,7 @@ using Content.Goobstation.Common.Grab;
 using Content.Shared.Atmos.Components;
 using Content.Shared.Zombies;
 using Content.Server.Ensnaring;
+using Content.Shared.Speech;
 
 namespace Content.Goobstation.Server.Changeling;
 
@@ -532,7 +533,8 @@ public sealed partial class ChangelingSystem : SharedChangelingSystem
         || !TryComp<MetaDataComponent>(target, out var metadata)
         || !TryComp<DnaComponent>(target, out var dna)
         || !TryComp<FingerprintComponent>(target, out var fingerprint)
-        || !TryComp<TTSComponent>(target, out var tts)) // CorvaxGoob-TTS
+        || !TryComp<TTSComponent>(target, out var tts) // CorvaxGoob-TTS
+        || !TryComp<VoiceBarkComponent>(target, out var bark)) // MirDi-Barks
         {
             _popup.PopupEntity(Loc.GetString("changeling-sting-extract-fail-lesser"), uid, uid);
             return false;
@@ -552,7 +554,10 @@ public sealed partial class ChangelingSystem : SharedChangelingSystem
             Name = metadata.EntityName,
             DNA = dna.DNA ?? Loc.GetString("forensics-dna-unknown"),
             Appearance = appearance,
-            Voice = tts.VoicePrototypeId // CorvaxGoob-TTS
+            Voice = tts.VoicePrototypeId, // CorvaxGoob-TTS
+            VoiceBarkId = bark.VoiceId,               // MirDi-Barks
+            VoiceBarkPitch = bark.BasePitch,         // MirDi-Barks
+            VoiceBarkPitchVar = bark.PitchVariation // MirDi-Barks
         };
 
         if (fingerprint.Fingerprint != null)
@@ -625,6 +630,12 @@ public sealed partial class ChangelingSystem : SharedChangelingSystem
             Comp<FingerprintComponent>(newEnt).Fingerprint = data.Fingerprint;
             Comp<DnaComponent>(newEnt).DNA = data.DNA;
             Comp<TTSComponent>(newEnt).VoicePrototypeId = data.Voice; // CorvaxGoob-TTS
+            if (TryComp<VoiceBarkComponent>(newEnt, out var newBark)) // MirDi-Barks
+            {
+                newBark.VoiceId = data.VoiceBarkId;
+                newBark.BasePitch = data.VoiceBarkPitch;
+                newBark.PitchVariation = data.VoiceBarkPitchVar;
+            }
             _humanoid.CloneAppearance(data.Appearance.Owner, newEnt);
             _metaData.SetEntityName(newEnt, data.Name);
             var message = Loc.GetString("changeling-transform-finish", ("target", data.Name));

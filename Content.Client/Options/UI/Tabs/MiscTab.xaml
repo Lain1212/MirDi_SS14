@@ -9,6 +9,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     <BoxContainer Orientation="Vertical">
         <ScrollContainer VerticalExpand="True" HorizontalExpand="True">
             <BoxContainer Orientation="Vertical" Margin="8 8 8 8" VerticalExpand="True">
+                <!-- WorldDi Edit Start -->
+                <Label Text="{Loc 'ui-options-label-char-MirDi'}"
+                       StyleClasses="LabelKeyText"/>
+                <CheckBox Name="ChatVoiceBarksCheckBox" Text="{Loc 'ui-options-barks-toggle'}" />
+                <CheckBox Name="ChatTextAnimationCheckBox" Text="{Loc 'ui-options-animationchat-toggle'}" />
+                <!-- WorldDi Edit End -->
                 <Label Text="{Loc 'ui-options-general-ui-style'}"
                        StyleClasses="LabelKeyText"/>
                 <ui:OptionDropDown Name="DropDownHudTheme" Title="{Loc 'ui-options-hud-theme'}" />
