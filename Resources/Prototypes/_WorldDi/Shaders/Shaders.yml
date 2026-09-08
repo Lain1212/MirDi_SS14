@@ -1,0 +1,14 @@
+- type: shader
+  id: BloomShader
+  kind: source
+  path: "/Textures/_WorldDi/Shaders/bloom.swsl"
+  params:
+    CircleRadius: 550.0
+    CircleMinDist: 0.0
+    CirclePow: 1.0
+    CircleMax: 4.0
+    CircleMult: 0.12
+    FalloffClampMin: 0.05
+    FalloffClampMax: 1.0
+    FalloffPow: 1.8
+

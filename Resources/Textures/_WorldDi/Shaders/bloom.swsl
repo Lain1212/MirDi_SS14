@@ -1,0 +1,44 @@
+uniform sampler2D SCREEN_TEXTURE;
+uniform sampler2D LIGHT_TEXTURE; // Веговская карта света
+
+uniform highp float Zoom;
+
+// Параметры затухания света из прототипа Веги
+uniform highp float CircleRadius;
+uniform highp float CircleMinDist;
+uniform highp float CirclePow;
+uniform highp float CircleMax;
+uniform highp float CircleMult;
+uniform highp float FalloffClampMin;
+uniform highp float FalloffClampMax;
+uniform highp float FalloffPow;
+
+void fragment() {
+    // 1. Берем чистый оригинальный пиксель игры через их функцию
+    COLOR = zTextureSpec(SCREEN_TEXTURE, Pos);
+    
+    highp vec2 aspect = vec2(1.0 / SCREEN_PIXEL_SIZE.x, 1.0 / SCREEN_PIXEL_SIZE.y);
+    highp float actualZoom = Zoom;
+
+    // 2. ВОЗВРАЩАЕМ ДИНАМИКУ: Считаем оригинальное веговское круговое затухание от FRAGCOORD.xy
+    // Оно отвечает за то, чтобы свет приглушался, когда ты стоишь рядом!
+    highp float circle = clamp(zCircleGradient(aspect, FRAGCOORD.xy, CircleMax, CircleRadius / actualZoom, CircleMinDist / actualZoom, CirclePow) * CircleMult, FalloffClampMin, FalloffClampMax);
+
+    // 3. Считываем сырой свет из карты освещения Веги
+    highp vec3 lightsampleraw = zTextureSpec(LIGHT_TEXTURE, Pos).rgb;
+    
+    // 4. Переводим свет в черно-белую маску яркости и применяем степень затухания
+    highp float graylight = max(max(lightsampleraw.r, lightsampleraw.g), lightsampleraw.b);
+    graylight = pow(max(graylight, 0.0), FalloffPow);
+
+    // 5. МЯГКАЯ ЗАЩИТА ОТ СТЕН: Проверяем яркость экрана, но используем очень плавный smoothstep.
+    // Это позволит веговскому circle градиенту управлять яркостью, но за стенами (где полный ноль) свет гарантированно погаснет.
+    highp float screenBrightness = max(max(COLOR.r, COLOR.g), COLOR.b);
+    highp float shadowMask = smoothstep(0.0, 0.15, screenBrightness);
+
+    // 6. Формируем финальное мягкое облако неона, объединяя динамический круг и маску тени
+    highp vec3 lightsample = lightsampleraw * vec3(graylight) * circle * shadowMask;
+    
+    // Мягко прибавляем получившийся свет к экрану (сохраняя альфу)
+    COLOR.rgb = COLOR.rgb + lightsample;
+}

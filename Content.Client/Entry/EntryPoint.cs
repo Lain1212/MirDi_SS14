@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+using Content.Client._White.ItemSlotRenderer;
+using Content.Client._WorldDi.Shaders;
 using Content.Client.Administration.Managers;
 using Content.Client.Changelog;
 using Content.Client.Chat.Managers;
@@ -171,6 +173,7 @@ namespace Content.Client.Entry
 
             _parallaxManager.LoadDefaultParallax();
 
+            _overlayManager.AddOverlay(new BloomOverlay()); // PostProcess WorldDi
             _overlayManager.AddOverlay(new SingularityOverlay());
             _overlayManager.AddOverlay(new RadiationPulseOverlay());
             _overlayManager.AddOverlay(new SpriteToLayerBullshitOverlay()); // WD EDIT
