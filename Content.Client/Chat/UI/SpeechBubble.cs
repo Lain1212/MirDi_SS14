@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+using Robust.Client.UserInterface.RichText; // Goob
 using System.Numerics;
 using Content.Shared.CCVar;
 using Content.Shared.Chat;
@@ -32,6 +33,19 @@ namespace Content.Client.Chat.UI
         [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
         [Dependency] private readonly IRobustRandom _random = default!;
         private readonly SharedTransformSystem _transformSystem;
+
+        // <Goob>
+        public static readonly Type[] AllowedTags =
+        [
+            typeof(BoldItalicTag),
+            typeof(BoldTag),
+            typeof(BulletTag),
+            typeof(ColorTag),
+            typeof(HeadingTag),
+            typeof(ItalicTag),
+            typeof(FontTag),
+        ];
+        // </Goob>
 
         public enum SpeechType : byte
         {
@@ -534,8 +548,12 @@ namespace Content.Client.Chat.UI
         {
             if (!ConfigManager.GetCVar(CCVars.ChatEnableFancyBubbles))
             {
-                var label = new RichTextLabel { MaxWidth = SpeechMaxWidth };
-                label.SetMessage(ExtractAndFormatSpeechSubstring(message, "BubbleContent", fontColor), tagsAllowed: null);
+                var label = new RichTextLabel
+                {
+                    MaxWidth = SpeechMaxWidth
+                };
+
+                label.SetMessage(ExtractAndFormatSpeechSubstring(message, "BubbleContent", fontColor), AllowedTags); // Goob - added AllowedTags
                 SpeechLabel = label;
 
                 var unfanciedPanel = new PanelContainer
@@ -563,9 +581,8 @@ namespace Content.Client.Chat.UI
             };
 
             //We'll be honest. *Yes* this is hacky. Doing this in a cleaner way would require a bottom-up refactor of how saycode handles sending chat messages. -Myr
-            bubbleHeader.SetMessage(ExtractAndFormatSpeechSubstring(message, "BubbleHeader", fontColor));
-            var fullSpeechMessage = ExtractAndFormatSpeechSubstring(message, "BubbleContent", fontColor);
-            bubbleContent.SetMessage(fullSpeechMessage, tagsAllowed: null);
+            bubbleHeader.SetMessage(ExtractAndFormatSpeechSubstring(message, "BubbleHeader", fontColor), AllowedTags); // Goob - added AllowedTags
+            bubbleContent.SetMessage(ExtractAndFormatSpeechSubstring(message, "BubbleContent", fontColor), AllowedTags); // Goob - added AllowedTags
             SpeechLabel = bubbleContent;
 
             //As for below: Some day this could probably be converted to xaml. But that is not today. -Myr
