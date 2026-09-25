@@ -75,6 +75,11 @@ public sealed class DiscordLink : IPostInjectInit
     /// </summary>
     public event Action<Message>? OnMessageReceived;
 
+    /// <summary>
+    ///     Event that is raised when the bot (re)connects and receives READY.
+    /// </summary>
+    public event Action? OnReady;
+
     // TODO: consider implementing this in a way where we can unregister it in a similar way
     public void RegisterCommandCallback(Action<CommandReceivedEventArgs> callback, string command)
     {
@@ -127,6 +132,7 @@ public sealed class DiscordLink : IPostInjectInit
         _client.Ready += _ =>
         {
             _sawmill.Info("Discord client ready.");
+            OnReady?.Invoke();
             return default;
         };
 
@@ -247,6 +253,27 @@ public sealed class DiscordLink : IPostInjectInit
             AllowedMentions = AllowedMentionsProperties.None,
             Content = message,
         });
+    }
+
+    /// <summary>
+    /// Sets the bot's "Watching ..." activity. Failures are logged and otherwise ignored.
+    /// </summary>
+    public async void UpdateStatus(string text)
+    {
+        if (_client == null)
+            return;
+
+        try
+        {
+            await _client.UpdatePresenceAsync(new PresenceProperties(UserStatusType.Online)
+            {
+                Activities = [new UserActivityProperties(text, UserActivityType.Watching)],
+            });
+        }
+        catch (Exception e)
+        {
+            _sawmill.Warning($"Failed to update Discord status: {e.Message}");
+        }
     }
 
     #endregion
