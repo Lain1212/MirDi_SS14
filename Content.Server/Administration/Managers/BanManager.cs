@@ -65,6 +65,8 @@ public sealed partial class BanManager : IBanManager, IPostInjectInit
 
         _userDbData.AddOnLoadPlayer(CachePlayerData);
         _userDbData.AddOnPlayerDisconnect(ClearPlayerData);
+
+        InitializeBanWebhook();
     }
 
     private async Task CachePlayerData(ICommonSession player, CancellationToken cancel)
@@ -170,6 +172,7 @@ public sealed partial class BanManager : IBanManager, IPostInjectInit
 
         _sawmill.Info(logMessage);
         _chat.SendAdminAlert(logMessage);
+        SendBanWebhook(banDef, targetName);
 
         KickMatchingConnectedPlayers(banDef, "newly placed ban");
     }
@@ -254,6 +257,7 @@ public sealed partial class BanManager : IBanManager, IPostInjectInit
             ("role", string.Join(", ", roleDefs)),
             ("reason", banInfo.Reason),
             ("length", length)));
+        SendBanWebhook(banDef, targetName);
 
         foreach (var (userId, _) in banInfo.Users)
         {
