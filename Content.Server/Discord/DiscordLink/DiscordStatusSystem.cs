@@ -1,10 +1,13 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+using System.Threading;
+using System.Threading.Tasks;
 using Content.Server.GameTicking;
 using Content.Server.Maps;
 using Content.Shared.CCVar;
 using Content.Shared.GameTicking;
 using Robust.Server.Player;
+using Robust.Shared.Asynchronous;
 using Robust.Shared.Configuration;
 
 namespace Content.Server.Discord.DiscordLink;
@@ -18,12 +21,13 @@ public sealed class DiscordStatusSystem : EntitySystem
     [Dependency] private readonly IConfigurationManager _cfg = default!;
     [Dependency] private readonly IGameMapManager _gameMapManager = default!;
     [Dependency] private readonly IPlayerManager _playerManager = default!;
+    [Dependency] private readonly ITaskManager _taskManager = default!;
     [Dependency] private readonly GameTicker _gameTicker = default!;
 
     // Статус шлётся только при изменении текста, так что частая проверка не упирается в лимиты Discord.
     private static readonly TimeSpan UpdateInterval = TimeSpan.FromSeconds(30);
 
-    private TimeSpan _accumulator;
+    private readonly CancellationTokenSource _cts = new();
     private string? _lastStatus;
 
     public override void Initialize()
@@ -31,19 +35,37 @@ public sealed class DiscordStatusSystem : EntitySystem
         base.Initialize();
 
         // После переподключения к Discord статус сбрасывается — отправляем заново.
-        _discordLink.OnReady += () => _lastStatus = null;
+        _discordLink.OnReady += () => _taskManager.RunOnMainThread(() => _lastStatus = null);
+
+        // Не через Update: на пустом сервере симуляция на паузе (game.auto_pause_empty) и Update не вызывается,
+        // а задачи главного потока обрабатываются и во время паузы.
+        RunLoop(_cts.Token);
     }
 
-    public override void Update(float frameTime)
+    public override void Shutdown()
     {
-        base.Update(frameTime);
+        base.Shutdown();
 
-        _accumulator += TimeSpan.FromSeconds(frameTime);
-        if (_accumulator < UpdateInterval)
-            return;
+        _cts.Cancel();
+    }
 
-        _accumulator = TimeSpan.Zero;
+    private async void RunLoop(CancellationToken cancel)
+    {
+        using var timer = new PeriodicTimer(UpdateInterval);
+        try
+        {
+            while (await timer.WaitForNextTickAsync(cancel))
+            {
+                _taskManager.RunOnMainThread(UpdateStatus);
+            }
+        }
+        catch (OperationCanceledException)
+        {
+        }
+    }
 
+    private void UpdateStatus()
+    {
         var status = BuildStatus();
         if (status == _lastStatus)
             return;
