@@ -32,6 +32,10 @@
   components:
   - type: Sprite
     sprite: _CorvaxGoob/Mobs/Species/Vulp/organs.rsi
+  - type: DarkAdaptation # WorldDi Added - Усиленное
+    delayBeforeAdaptation: 5
+    maxRadius: 3.5
+    maxEnergy: 0.3
 
 - type: entity
   parent: OrganAnimalHeart

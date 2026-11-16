@@ -252,6 +252,10 @@
   - type: Item
     size: Small
     heldPrefix: eyeballs
+  - type: DarkAdaptation # WorldDi Added - Усиленное
+    delayBeforeAdaptation: 4
+    maxRadius: 3.7
+    maxEnergy: 0.3
 
 - type: entity
   id: OrganArachnidTongue
