@@ -53,6 +53,8 @@
     layers:
       - state: eyeball-l
       - state: eyeball-r
+  - type: DarkAdaptation # WorldDi Added - Ускоренное
+    delayBeforeAdaptation: 5
 
 - type: entity
   id: OrganMothHeart

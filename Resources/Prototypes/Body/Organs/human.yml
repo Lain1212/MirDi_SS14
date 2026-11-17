@@ -145,6 +145,7 @@
   - type: Item
     size: Small
     heldPrefix: eyeballs
+  - type: DarkAdaptation # WorldDi Added - адаптация к темноте
 
 - type: entity
   id: OrganHumanTongue
