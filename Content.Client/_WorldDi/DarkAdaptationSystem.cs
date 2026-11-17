@@ -53,17 +53,22 @@ public sealed class DarkAdaptationSystem : EntitySystem
             return;
 
         if (_player.LocalEntity is not { } playerUid)
+        {
+            CleanupCachedEyes();
             return;
+        }
 
         var curTime = _timing.CurTime;
         var prevEyes = _cachedEyes;
         if (!TryGetCachedEyes(playerUid, curTime, out var comp))
         {
-            if (prevEyes is { } oldEyes && _adaptationQuery.TryGetComponent(oldEyes, out var oldComp))
-                CleanupLight(oldComp);
+            if (prevEyes != null)
+                CleanupEyes(prevEyes.Value);
             return;
         }
 
+        if (prevEyes != null && prevEyes != _cachedEyes)
+            CleanupEyes(prevEyes.Value);
 
         if (!_xformQuery.TryGetComponent(playerUid, out var xform))
             return;
@@ -187,5 +192,23 @@ public sealed class DarkAdaptationSystem : EntitySystem
         }
 
         comp.LightEntity = null;
+    }
+    private void CleanupCachedEyes()
+    {
+        if (_cachedEyes is { } oldEyes)
+            CleanupEyes(oldEyes);
+
+        _cachedEyes = null;
+        _cachedBody = null;
+    }
+
+    private void CleanupEyes(EntityUid eyesUid)
+    {
+        if (_adaptationQuery.TryGetComponent(eyesUid, out var oldComp))
+        {
+            CleanupLight(oldComp);
+            oldComp.TimeInDark = 0f;
+            oldComp.IsDark = false;
+        }
     }
 }
