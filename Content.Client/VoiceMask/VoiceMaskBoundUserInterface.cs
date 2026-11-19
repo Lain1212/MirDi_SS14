@@ -39,7 +39,7 @@ public sealed class VoiceMaskBoundUserInterface : BoundUserInterface
         _window.OnAccentToggle += OnAccentToggle;
         _window.OnVoiceChange += voice => SendMessage(new VoiceMaskChangeVoiceMessage(voice)); // CorvaxGoob-TTS
         _window.OnJobIconChanged += OnJobIconChanged; // GabyStation -> Radio icons
-        _window?.OnBarksChange += (voiceId, pitch, pitchVar) => SendMessage(new VoiceMaskChangeBarksMessage(voiceId, pitch, pitchVar)); // MirDi-Barks
+        _window.OnBarksChange += (voiceId, pitch, pitchVar) => SendMessage(new VoiceMaskChangeBarksMessage(voiceId, pitch, pitchVar)); // MirDi-Barks
     }
 
     private void OnNameSelected(string name)
@@ -66,21 +66,16 @@ public sealed class VoiceMaskBoundUserInterface : BoundUserInterface
 
     protected override void UpdateState(BoundUserInterfaceState state)
     {
-        base.UpdateState(state);
-        if (state is not VoiceMaskBuiState cast) return;
+        if (state is not VoiceMaskBuiState cast || _window == null)
+        {
+            return;
+        }
 
-        _window?.UpdateState(
-            cast.Name,
-            cast.Verb,
-            cast.Active,
-            cast.AccentHide,
-            cast.TTSVoice,
-            cast.BarkVoiceId,
-            cast.BarkPitch,
-            cast.BarkPitchVar
-        );
+        _window.UpdateState(cast.Name, cast.Verb, cast.Active, cast.AccentHide, cast.TTSVoice, // CorvaxGoob-TTS Voice
+            cast.BarkVoiceId, cast.BarkPitch, cast.BarkPitchVar); // MirDi-Barks
+
+        _window.SetCurrentJobIcon(cast.JobIcon); // GabyStation -> Radio icons
     }
-
 
     protected override void Dispose(bool disposing)
     {
