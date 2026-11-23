@@ -166,7 +166,7 @@ public sealed class SpeechBubbleAnimator
                 {
                     Timer.Spawn(TimeSpan.FromSeconds(accumulatedDelay), () =>
                     {
-                        if (!_entityManager.Deleted(_senderEntity) && TryGetVoiceData(out var v, out var b))
+                        if (!_entityManager.Deleted(_senderEntity) && TryGetVoiceData(out var v, out var b) && v.Sounds.Count > 0)
                             PlayBarkSound(v, b);
                     });
                 }
@@ -187,6 +187,9 @@ public sealed class SpeechBubbleAnimator
 
     private void PlayBarkSound(VoicePrototype voice, VoiceBarkComponent? barkComp)
     {
+        if (voice.Sounds.Count == 0)
+            return;
+
         var randomSound = _random.Pick(voice.Sounds);
         var basePitch = barkComp?.BasePitch ?? voice.BasePitch;
         var pitchVar = barkComp?.PitchVariation ?? voice.PitchVariation;
